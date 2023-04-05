@@ -1,0 +1,97 @@
+.language-container {
+	margin: 0;
+
+	> li {
+		margin: 0;
+	}
+}
+
+.language-switcher {
+	display: inline-block;
+	position: relative;
+	border: 2px solid #fff;
+	border-radius: 30px;
+
+	&:hover {
+		border-bottom-color: transparent;
+		border-radius: 30px 30px 0 0;
+
+		.submenu {
+			overflow: visible;
+			left: -2px;
+			width: calc(100% + 4px);
+			max-height: 100vh;
+			margin-top: 0;
+			padding: 22px 0;
+			border: 2px solid #fff;
+			border-top: 0;
+			opacity: 1;
+		}
+	}
+
+	a {
+		display: inline-block;
+		color: #fff;
+		text-decoration: none;
+		text-transform: uppercase;
+
+		&:after {
+			top: 2px;
+			font-size: 1.9rem;
+		}
+	}
+
+	>a {
+		display: flex;
+		min-height: 72px;
+		padding: 0 1.5vw;
+		font-weight: 600;
+		line-height: 1.4;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
+		gap: 16px;
+
+		&:after {
+			display: inline-block;
+			position: relative;
+			top: 0;
+			left: 8px;
+			margin: 0;
+			font-family: "jesusfilm-icons-font";
+			font-size: 10px;
+			content: " \e918";
+		}
+	}
+
+	.submenu {
+		overflow: hidden;
+		position: absolute;
+		z-index: 90;
+		left: 0;
+		width: auto;
+		max-height: 0;
+		margin: 0;
+		border-color: transparent;
+		border-top: 0;
+		border-radius: 0 0 30px 30px;
+		opacity: 0.5;
+		background-color: #000;
+		font-family: "Inter", "Times New Roman", "arial", sans-serif;
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.4;
+		text-align: left;
+		transition: none;
+
+		li {
+			margin: 0;
+			list-style: none;
+
+			a {
+				display: block;
+				padding: 12px 20px;
+			}
+		}
+	}
+}

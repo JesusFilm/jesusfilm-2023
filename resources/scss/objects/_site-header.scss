@@ -1,0 +1,35 @@
+.site-header {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+		position: static;
+		height: var(--wp--custom--header-height--mobile);
+		align-items: center;
+
+		@media (min-width: 782px) {
+			display: block;
+			height: var(--wp--custom--header-height--desktop);
+			padding-top: 69px;
+			padding-bottom: 56px;
+		}
+
+		> div {
+			position: static;
+
+			@media (max-width: 781px) {
+				width: 100%;
+			}
+		}
+	}
+
+	&__actions {
+		position: static !important;
+
+		> *:not(.wp-block-megamenu) {
+			position: relative;
+			z-index: 60;
+		}
+	}
+}

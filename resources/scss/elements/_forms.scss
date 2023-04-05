@@ -1,0 +1,18 @@
+form {
+	font-family: var(--wp--preset--font-family--apercupro);
+}
+
+#{$form-fields} {
+
+	@include text-input();
+}
+
+input[type="radio"] {
+
+	@include checkbox();
+}
+
+textarea {
+
+	@include textarea();
+}

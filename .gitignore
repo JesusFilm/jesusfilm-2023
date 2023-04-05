@@ -1,0 +1,9 @@
+.DS_Store
+.env
+composer.lock
+assets
+build
+languages
+node_modules
+themes
+vendor

@@ -1,0 +1,17 @@
+@import "bourbon";
+
+.editor-styles-wrapper {
+
+	@import "settings/_index";
+	@import "utilities/_index";
+	@import "components/_index";
+	@import "elements/forms";
+	@import "elements/lists";
+	@import "elements/typography";
+	@import "plugins/_index";
+	@import "objects/_index";
+
+	.is-style-brand-red {
+		background-image: url("../img/jfp-brand-bg.jpg") !important;
+	}
+}

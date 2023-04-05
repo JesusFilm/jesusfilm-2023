@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "jf/blog-template",
+	"title": "Blog Template",
+	"category": "theme",
+	"description": "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
+	"textdomain": "default",
+	"usesContext": [
+		"queryId",
+		"query",
+		"queryContext",
+		"displayLayout",
+		"templateSlug",
+		"previewPostType"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"align": true,
+		"anchor": true,
+		"__experimentalLayout": {
+			"allowEditing": false
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

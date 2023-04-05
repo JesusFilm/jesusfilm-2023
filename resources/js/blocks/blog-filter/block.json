@@ -1,0 +1,72 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "jf/blog-filter",
+	"title": "Blog Filter",
+	"category": "text",
+	"description": "Blog filter block.",
+	"keywords": [ "blog", "post", "query", "loop" ],
+	"textdomain": "default",
+    "attributes": {
+		"filterType": {
+			"type": "string",
+			"default": "taxonomy"
+		},
+		"filterTaxonomy": {
+			"type": "string"
+		}
+    },
+    "usesContext": [
+		"queryId",
+		"query"
+	],
+	"supports": {
+		"anchor": false,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"radius": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true,
+				"radius": true
+			}
+		},
+        "__experimentalLayout": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"render": "file:./render.php",
+    "viewScript": "file:./view.js"
+}

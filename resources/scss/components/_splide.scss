@@ -1,0 +1,26 @@
+.splide {
+
+	&__pagination {
+		gap: 10px;
+
+		li {
+			display: block;
+			width: 10px;
+			height: 10px;
+		}
+
+		&__page {
+			display: block;
+			width: 10px;
+			height: 10px;
+			margin: 0;
+			opacity: 1;
+			background-color: var(--wp--preset--color--warm-white);
+
+			&.is-active {
+				background-color: var(--wp--preset--color--red);
+				transform: none;
+			}
+		}
+	}
+}

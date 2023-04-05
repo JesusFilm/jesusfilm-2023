@@ -1,0 +1,37 @@
+<!-- wp:template-part {"slug":"header","theme":"jesusfilm-2023","tagName":"header","align":"full","className":"site-header"} /-->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|120","bottom":"var:preset|spacing|120"}}},"backgroundColor":"gray-100","className":"site-content","layout":{"type":"constrained"}} -->
+<div class="wp-block-group site-content has-gray-100-background-color has-background" style="padding-top:var(--wp--preset--spacing--120);padding-bottom:var(--wp--preset--spacing--120)"><!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+    <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--60)"><!-- wp:query-title {"type":"archive","level":2} /--></div>
+    <!-- /wp:group -->
+    
+    <!-- wp:query {"queryId":18,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"displayLayout":{"type":"flex","columns":3},"className":"wp-block-query__blog"} -->
+    <div class="wp-block-query wp-block-query__blog"><!-- wp:post-template -->
+    <!-- wp:group {"style":{"spacing":{"blockGap":"0","padding":{"top":"0","right":"0","bottom":"0","left":"0"}},"border":{"radius":"4px"}},"borderColor":"gray-200","backgroundColor":"background","layout":{"type":"constrained"}} -->
+    <div class="wp-block-group has-border-color has-gray-200-border-color has-background-background-color has-background" style="border-radius:4px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:post-featured-image {"isLink":true,"height":"260px"} /-->
+    
+    <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","right":"var:preset|spacing|20","bottom":"var:preset|spacing|20","left":"var:preset|spacing|20"}}},"layout":{"type":"constrained"}} -->
+    <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--20);padding-right:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)"><!-- wp:post-title {"level":3,"isLink":true,"fontSize":"huge"} /-->
+    
+    <!-- wp:post-excerpt {"moreText":"\u003cstrong\u003e\u003cspan style=\u0022text-decoration: underline;\u0022\u003eRead more\u003c/span\u003e\u003c/strong\u003e"} /--></div>
+    <!-- /wp:group --></div>
+    <!-- /wp:group -->
+    <!-- /wp:post-template -->
+    
+    <!-- wp:query-pagination {"paginationArrow":"arrow"} -->
+    <!-- wp:query-pagination-previous {"label":""} /-->
+    
+    <!-- wp:query-pagination-numbers /-->
+    
+    <!-- wp:query-pagination-next {"label":""} /-->
+    <!-- /wp:query-pagination -->
+    
+    <!-- wp:query-no-results -->
+    <!-- wp:paragraph {"placeholder":"Add text or blocks that will display when a query returns no results."} -->
+    <p>No results found.</p>
+    <!-- /wp:paragraph -->
+    <!-- /wp:query-no-results --></div>
+    <!-- /wp:query --></div>
+    <!-- /wp:group -->
+    
+    <!-- wp:template-part {"slug":"footer","theme":"jesusfilm-2023","tagName":"footer","align":"full","className":"site-footer"} /-->

@@ -1,0 +1,5 @@
+node_modules/
+vendor/
+assets/js/*.js
+stylelint.config.js
+webpack.mix.js

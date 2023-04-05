@@ -1,0 +1,87 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "jf/blog",
+	"title": "Blog",
+	"category": "text",
+	"description": "Blog block.",
+	"keywords": [ "blog", "post", "query", "loop" ],
+	"textdomain": "default",
+    "attributes": {
+        "queryId": {
+			"type": "number"
+		},
+        "query": {
+			"type": "object",
+			"default": {
+				"perPage": null,
+				"pages": 0,
+				"offset": 0,
+				"postType": "post",
+				"order": "desc",
+				"orderBy": "date",
+				"author": "",
+				"search": "",
+				"exclude": [],
+				"sticky": "",
+				"inherit": true,
+				"taxQuery": null,
+				"parents": []
+			}
+		}
+    },
+    "providesContext": {
+		"queryId": "queryId",
+		"query": "query",
+		"displayLayout": "displayLayout"
+	},
+	"supports": {
+        "align": ["wide", "full"],
+		"anchor": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"radius": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true,
+				"radius": true
+			}
+		},
+        "__experimentalLayout": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"render": "file:./render.php"
+}

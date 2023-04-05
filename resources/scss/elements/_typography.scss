@@ -1,0 +1,17 @@
+blockquote {
+	margin: 0;
+
+	p {
+		margin-top: 0;
+		margin-bottom: 0.5em;
+		line-height: inherit;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+
+	cite {
+		font-size: var(--wp--preset--font-size--regular);
+	}
+}

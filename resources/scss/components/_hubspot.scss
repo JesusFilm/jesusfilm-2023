@@ -1,0 +1,134 @@
+.hbspt-form {
+	margin: 0 !important;
+
+	[class*="form-columns-"] {
+		max-width: 100% !important;
+
+		> * {
+			float: none !important;
+			width: 100% !important;
+			min-width: 0 !important;
+
+			#{$form-fields} {
+				width: 100% !important;
+				max-width: 100%;
+			}
+		}
+	}
+
+	label {
+		font-size: var(--wp--preset--font-size--small);
+	}
+
+	.input {
+		display: flex !important;
+	}
+
+	form > *:not(:last-child) .hs-form-field:not([style*="none"]) {
+		margin-bottom: var(--wp--preset--spacing--16);
+	}
+
+	.grecaptcha-badge {
+		display: none;
+	}
+
+	.hs-form-field {
+		margin-bottom: var(--wp--preset--spacing--16);
+	}
+
+	.hs-error-msgs {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.hs-error-msg {
+			color: var(--wp--preset--color--red);
+		}
+	}
+
+	ul.inputs-list {
+		padding: 0;
+		list-style: none;
+	}
+
+	.legal-consent-container {
+
+		&,
+		* {
+			font-size: var(--wp--preset--font-size--tiny);
+			line-height: 1.5;
+		}
+
+		> * {
+			margin-bottom: var(--wp--preset--spacing--16);
+		}
+	}
+
+	#{$all-text-inputs} {
+		width: 100%;
+	}
+
+	[type="submit"] {
+
+		@media (max-width: 599px) {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 600px) {
+
+		[class*="form-columns-"] {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 12px;
+		}
+
+		.form-columns-2 {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.form-columns-3 {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+
+	[data-form-id="597cd717-d03f-41aa-8f79-3e881ee96663"] {
+		position: relative;
+
+		label {
+			display: none;
+		}
+
+		[type="email"] {
+			padding-right: 52px;
+		}
+
+		[type="submit"] {
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 52px;
+			height: 52px;
+			padding: 0;
+			border-radius: 0;
+			border-top-right-radius: 52px;
+			border-bottom-right-radius: 52px;
+			outline: 2px solid transparent;
+			color: transparent;
+			background: transparent url("data:image/svg+xml,%3Csvg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.3497 11L6.9543 8.71477L5.58509 9.86277L5.02898 7.41888L10.9587 2.22567L3.84882 6.30974L0.5 3.89355L13.5 0L10.3497 11Z' fill='black'/%3E%3C/svg%3E ") center/13px no-repeat;
+			font-size: 0;
+			text-indent: -9999px;
+
+			&:hover {
+				background-position: center;
+			}
+		}
+	}
+}

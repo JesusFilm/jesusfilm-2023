@@ -1,0 +1,138 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "cloudcatch/cards-card",
+	"version": "0.0.0-development",
+	"title": "Card",
+	"category": "design",
+	"icon": "smiley",
+	"parent": [
+		"cloudcatch/cards"
+	],
+	"description": "Rich card cards.",
+	"attributes": {
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"useFeaturedImage": {
+			"type": "boolean",
+			"default": false
+		},
+		"mediaPosition": {
+			"type": "string",
+			"default": "top"
+		},
+		"mediaId": {
+			"type": "number",
+			"__experimentalRole": "content"
+		},
+		"mediaUrl": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure video,figure img",
+			"attribute": "src",
+			"__experimentalRole": "content"
+		},
+		"mediaLink": {
+			"type": "string"
+		},
+		"linkDestination": {
+			"type": "string"
+		},
+		"linkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "target"
+		},
+		"href": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "href",
+			"__experimentalRole": "content"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "rel"
+		},
+		"linkClass": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "class"
+		},
+		"mediaType": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"mediaWidth": {
+			"type": "number",
+			"default": 50
+		},
+		"mediaSizeSlug": {
+			"type": "string"
+		},
+		"dimRatio": {
+			"type": "number",
+			"default": 0
+		},
+		"width": {
+			"type": "number"
+		}
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"anchor": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"radius": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true,
+				"radius": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"__experimentalLayout": {
+			"allowSizingOnChildren": true
+		}
+	},
+	"textdomain": "cards",
+	"editorScript": "file:./index.js"
+}

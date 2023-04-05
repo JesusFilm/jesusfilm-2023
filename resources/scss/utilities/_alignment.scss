@@ -1,0 +1,16 @@
+// .has-global-padding > .alignfull {
+//     padding-left: var(--wp--style--root--padding-right);
+//     padding-right: var(--wp--style--root--padding-right);
+// }
+
+.entry-content > .has-global-padding:not(.full-width) {
+
+	&.alignfull {
+		padding-right: var(--wp--style--root--padding-right);
+		padding-left: var(--wp--style--root--padding-right);
+	}
+}
+
+.entry-content .has-global-padding.wp-block-group.alignfull {
+	overflow: hidden;
+}

@@ -1,0 +1,51 @@
+.gform_wrapper.gravity-theme {
+	font-family: var(--wp--preset--font-family--apercupro);
+
+	form {
+		#{$form-fields} {
+
+			@include text-input();
+		}
+
+		textarea {
+
+			@include textarea();
+		}
+
+		.gfield {
+
+			&_label {
+				font-size: 15px;
+				font-weight: 500;
+			}
+
+			&_description {
+				padding-top: var(--wp--preset--spacing--8);
+				padding-left: var(--wp--preset--spacing--20);
+				font-size: var(--wp--preset--font-size--tiny);
+			}
+
+			&_checkbox {
+
+				input[type="checkbox"] {
+
+					@include checkbox();
+				}
+			}
+
+			&_checkbox,
+			&_radio {
+				gap: var(--wp--preset--spacing--20);
+
+			}
+		}
+
+		.gform {
+
+			&_footer {
+				justify-content: flex-end;
+			}
+		}
+	}
+
+}

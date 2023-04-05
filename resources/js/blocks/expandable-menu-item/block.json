@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "cloudcatch/expandable-menu-item",
+	"version": "0.1.0",
+	"title": "Expandable Menu Item",
+	"category": "widgets",
+	"icon": "menu",
+	"parent": [
+		"cloudcatch/expandable-menu"
+	],
+	"description": "Example block scaffolded with Create Block tool.",
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"type": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"id": {
+			"type": "number"
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"url": {
+			"type": "string"
+		},
+		"kind": {
+			"type": "string"
+		},
+		"isTopLevelLink": {
+			"type": "boolean"
+		},
+		"expandable-menuEnabled": {
+			"type": "boolean"
+		},
+		"deviceVisibility": {
+			"type": "string"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "rel"
+		}
+	},
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"__experimentalSlashInserter": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"textdomain": "expandable-menu",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

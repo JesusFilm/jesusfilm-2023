@@ -1,0 +1,63 @@
+{
+  "name": "jesusfilm-2023",
+  "version": "0.0.0-development",
+  "description": "Default theme for jesusfilm.org",
+  "main": "src/index.js",
+  "keywords": [
+    "wordpress-theme"
+  ],
+  "author": "CloudCatch LLC",
+  "license": "UNLICENSED",
+  "theme": {
+    "name": "Jesus Film Project",
+    "uri": "https://www.jesusfilm.org",
+    "authoruri": "https://cloudcatch.io",
+    "domainpath": "/languages"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "start": "cross-env sync=1 NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "lint": "npm run lint:styles && npm run lint:scripts && npm run lint:php",
+    "lint:styles": "cross-env stylelint './resources/scss/**/*.scss'",
+    "lint:scripts": "cross-env eslint './resources/js/*.js'",
+    "lint:php": "cross-env ./vendor/bin/phpcs . --runtime-set testVersion 5.6- -s",
+    "i18n": "npm run i18n:textdomain && npm run i18n:pot",
+    "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,tests,node_modules",
+    "i18n:pot": "npx wpi18n makepot --domain-path=languages",
+    "theme-zip": "bash ./bin/build-zip.sh"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/preset-react": "^7.18.6",
+    "@wordpress/dependency-extraction-webpack-plugin": "^4.11.0",
+    "@wordpress/eslint-plugin": "^13.9.0",
+    "@wordpress/icons": "^9.19.0",
+    "@wordpress/stylelint-config": "^21.8.0",
+    "accessible-menu": "^3.0.5",
+    "bourbon": "^7.3.0",
+    "browser-sync": "^2.27.11",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "classnames": "^2.3.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.33.0",
+    "imagemin-webpack-plugin": "^2.4.2",
+    "laravel-mix": "^6.0.49",
+    "lodash": "^4.17.21",
+    "node-wp-i18n": "^1.2.7",
+    "postcss-preset-env": "^8.0.1",
+    "prepend-file": "^2.0.1",
+    "prettier": "^2.8.3",
+    "prettier-stylelint": "^0.4.2",
+    "sass": "^1.57.1",
+    "sass-loader": "^12.6.0",
+    "stylelint": "^14.16.1",
+    "stylelint-config-recommended-scss": "^8.0.0",
+    "stylelint-order": "^6.0.1"
+  },
+  "dependencies": {
+    "react-dom": "^18.2.0",
+    "react-select": "^5.7.1"
+  }
+}

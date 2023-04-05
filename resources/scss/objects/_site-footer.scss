@@ -1,0 +1,25 @@
+.site-footer {
+	margin-top: 0;
+
+	a {
+		text-decoration: none;
+	}
+
+	svg {
+		max-width: 100%;
+	}
+
+	&__grid {
+
+		&-col-1 {
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+			gap: var(--wp--style--block-gap);
+
+			.wp-block-social-links {
+				margin-left: auto;
+			}
+		}
+	}
+}

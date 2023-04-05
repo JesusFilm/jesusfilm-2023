@@ -1,0 +1,11 @@
+[type="submit"],
+[type="reset"],
+.button {
+
+	@include button();
+
+	&.small {
+
+		@include button("small");
+	}
+}
