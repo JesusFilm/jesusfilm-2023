@@ -17,8 +17,82 @@
 			align-items: center;
 			gap: var(--wp--style--block-gap);
 
+			@media (max-width: 599px) {
+				row-gap: var(--wp--preset--spacing--32) !important;
+				justify-content: space-between;
+			}
+
+			.wp-block-site-logo {
+				order: -2;
+				max-width: calc(100vw - 180px);
+			}
+
+			.wp-block-buttons {
+
+				@media (max-width: 599px) {
+					order: -1;
+				}
+			}
+
 			.wp-block-social-links {
-				margin-left: auto;
+
+				@media (min-width: 600px) {
+					flex-basis: auto;
+					margin-left: auto;
+				}
+
+				@media (max-width: 599px) {
+					flex-basis: 100%;
+					justify-content: center;
+					column-gap: var(--wp--preset--spacing--40);
+				}
+			}
+
+			.wp-block-navigation {
+
+				@media (max-width: 599px) {
+					flex-basis: 100%;
+					justify-content: center;
+				}
+
+				&__container {
+
+					@media (max-width: 599px) {
+						justify-content: center;
+						column-gap: var(--wp--preset--spacing--40);
+					}
+				}
+			}
+		}
+
+		&-col-2 {
+
+			@media (max-width: 599px) {
+				row-gap: var(--wp--preset--spacing--32) !important;
+			}
+
+			> * {
+
+				@media (max-width: 599px) {
+					flex-basis: 100%;
+					justify-content: center;
+				}
+			}
+
+			.wp-block-search {
+				flex: 1;
+				max-width: 473px;
+
+				@media (max-width: 599px) {
+					order: -1;
+				}
+			}
+
+			.wp-block-columns.is-style-separator .wp-block-column {
+
+				@media (max-width: 599px) {
+					flex: 0 1 auto;
+				}
 			}
 		}
 	}

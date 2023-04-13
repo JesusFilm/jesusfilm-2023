@@ -1,0 +1,65 @@
+@use "sass:math";
+
+@function decimalround($number, $digits: 0) {
+	$n: 1;
+	// $number must be a number
+	@if type-of($number) != number {
+
+		@warn "#{ $number } is not a number.";
+		@return $number;
+	}
+	// $digits must be a unitless number
+	@if type-of($digits) != number {
+
+		@warn "#{ $digits } is not a number.";
+		@return $number;
+	} @else if not unitless($digits) {
+
+		@warn "#{ $digits } has a unit.";
+		@return $number;
+	}
+
+	@if $digits > 0 {
+
+		@for $i from 1 through $digits {
+			$n: $n * 10;
+		}
+	}
+
+	@return round($number * $n) / $n;
+}
+
+@function tofixed($value) {
+
+	@return decimalround($value, 4);
+}
+
+@function clampbuilder($minSize, $maxSize, $minWidth, $maxWidth) {
+	$slope: ($maxSize - $minSize) / ($maxWidth - $minWidth);
+	$yAxisIntersection: ($minWidth*-1) *$slope+$minSize;
+
+	$min: $minSize * 1px;
+	$max: $maxSize * 1px;
+
+	@if $min > $max {
+		$min: $maxSize * 1px;
+		$max: $minSize * 1px;
+	}
+
+	$preferred: tofixed($yAxisIntersection * 1px) + " + " + tofixed($slope * 100);
+
+	@return clamp(#{$min}, #{$preferred}vw, #{$max});
+}
+
+
+$max: 100;
+$step: 4;
+
+@for $i from 1 through ceil($max/$step) {
+	.offset-bottom-#{$i * $step} {
+		margin-bottom: clampbuilder(( ( $i * $step ) * -1 ) / 1.5, ( $i * $step ) * -1, 600, 782) !important;
+	}
+	.padding-bottom-#{$i * $step} {
+		padding-bottom: clampbuilder(( $i * $step ) / 1.5, ( $i * $step ), 600, 782) !important;
+	}
+}

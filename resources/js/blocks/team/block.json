@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "jf/team",
+	"title": "Team",
+	"category": "media",
+	"description": "Team block.",
+	"keywords": [ "team", "member", "user" ],
+	"textdomain": "default",
+	"attributes": {
+		"name": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"url": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "src"
+		},
+		"id": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": false
+	},
+	"viewScript": "file:./view.js"
+}

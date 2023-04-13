@@ -15,6 +15,7 @@ module.exports = {
         'max-line-length': 255,
         'no-duplicate-selectors': null,
         'no-descending-specificity': null,
+        'selector-class-pattern': null,
         'function-url-quotes': 'always',
         'font-family-name-quotes': 'always-unless-keyword',
         'selector-list-comma-newline-after': [

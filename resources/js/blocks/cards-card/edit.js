@@ -29,16 +29,35 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { pullLeft, pullRight } from '@wordpress/icons';
 import { useEntityProp, store as coreStore } from '@wordpress/core-data';
 
-import { useRef } from '@wordpress/element';
+import { useRef, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { SVG, Path } from '@wordpress/primitives';
 
 import MediaContainer from './media-container';
 import { pullTop, pullBg } from './icons';
-import { dimRatioToClass } from './shared';
+import { dimRatioToClass, createUpgradedEmbedBlock } from './shared';
 
 const LINK_DESTINATION_MEDIA = 'media';
 const LINK_DESTINATION_ATTACHMENT = 'attachment';
 const ALLOWED_MEDIA_TYPES = ['image', 'video'];
+
+const placeholderIllustration = (
+	<SVG
+		className="components-placeholder__illustration"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 60 60"
+		preserveAspectRatio="none"
+	>
+		<Path vectorEffect="non-scaling-stroke" d="M60 60 0 0" />
+	</SVG>
+);
+
+const placeholderChip = (
+	<div className="wp-block-post-featured-image__placeholder">
+		{placeholderIllustration}
+	</div>
+);
 
 function attributesFromMedia({ attributes, setAttributes }) {
 	return (media) => {
@@ -99,7 +118,7 @@ export default function Edit({
 	setAttributes,
 	clientId,
 	isSelected,
-	context: { postId, postType },
+	context: { postId, postType, queryId },
 }) {
 	const {
 		verticalAlignment,
@@ -114,6 +133,8 @@ export default function Edit({
 		width,
 	} = attributes;
 
+	const isDescendentOfQueryLoop = Number.isFinite(queryId);
+
 	const rootClientId = useSelect(
 		(select) => {
 			const { getBlockRootClientId } = select(blockEditorStore);
@@ -125,7 +146,7 @@ export default function Edit({
 		[clientId]
 	);
 
-	const [featuredImage] = useEntityProp(
+	const [featuredImage, setFeaturedImage] = useEntityProp(
 		'postType',
 		postType,
 		'featured_media',
@@ -145,6 +166,17 @@ export default function Edit({
 
 	const onSelectMedia = attributesFromMedia({ attributes, setAttributes });
 
+	const onSelectURL = (newUrl) => {
+		if (newUrl !== mediaUrl) {
+			setAttributes({
+				mediaUrl: newUrl,
+				mediaType: 'image',
+				mediaId: undefined,
+				useFeaturedImage: false,
+			});
+		}
+	};
+
 	const onRemoveMedia = () => {
 		setAttributes({
 			mediaAlt: undefined,
@@ -159,7 +191,7 @@ export default function Edit({
 
 	const toggleUseFeaturedImage = () => {
 		setAttributes({
-			id: !useFeaturedImage ? media?.id : undefined,
+			mediaId: !useFeaturedImage ? media?.id : undefined,
 			mediaUrl: !useFeaturedImage ? media?.source_url : undefined,
 			useFeaturedImage: !useFeaturedImage,
 			mediaType: 'image',
@@ -266,6 +298,7 @@ export default function Edit({
 						accept="image/*,video/*"
 						onSelect={onSelectMedia}
 						onToggleFeaturedImage={toggleUseFeaturedImage}
+						onSelectURL={onSelectURL}
 						useFeaturedImage={useFeaturedImage}
 						name={!mediaUrl ? __('Add Media') : __('Replace')}
 					/>
@@ -296,50 +329,51 @@ export default function Edit({
 						})}
 					</ButtonGroup>
 				</PanelBody>
-				{(mediaPosition === 'left' || mediaPosition === 'right') && (
-					<PanelBody title={__('Media Settings')}>
-						<ButtonGroup aria-label={__('Media width')}>
-							{[25, 50, 75].map((widthValue) => {
-								return (
-									<Button
-										key={widthValue}
-										isSmall
-										variant={
-											widthValue === mediaWidth
-												? 'primary'
-												: undefined
-										}
-										onClick={() =>
-											setAttributes({
-												mediaWidth: widthValue,
-											})
-										}
-									>
-										{widthValue}%
-									</Button>
-								);
-							})}
-						</ButtonGroup>
+				{(mediaPosition === 'left' || mediaPosition === 'right') &&
+					mediaUrl && (
+						<PanelBody title={__('Media Settings')}>
+							<ButtonGroup aria-label={__('Media width')}>
+								{[25, 50, 75].map((widthValue) => {
+									return (
+										<Button
+											key={widthValue}
+											isSmall
+											variant={
+												widthValue === mediaWidth
+													? 'primary'
+													: undefined
+											}
+											onClick={() =>
+												setAttributes({
+													mediaWidth: widthValue,
+												})
+											}
+										>
+											{widthValue}%
+										</Button>
+									);
+								})}
+							</ButtonGroup>
 
-						{mediaUrl && (
-							<RangeControl
-								label={__('Image overlay opacity')}
-								value={dimRatio}
-								onChange={(newDimRation) =>
-									setAttributes({
-										dimRatio: newDimRation,
-									})
-								}
-								min={0}
-								max={100}
-								step={10}
-							/>
-						)}
-					</PanelBody>
-				)}
+							{mediaUrl && (
+								<RangeControl
+									label={__('Image overlay opacity')}
+									value={dimRatio}
+									onChange={(newDimRation) =>
+										setAttributes({
+											dimRatio: newDimRation,
+										})
+									}
+									min={0}
+									max={100}
+									step={10}
+								/>
+							)}
+						</PanelBody>
+					)}
 			</InspectorControls>
 			<div {...blockProps}>
-				{mediaUrl && (
+				{(useFeaturedImage || mediaUrl) && (
 					<MediaContainer
 						className="wp-block-card__media"
 						onSelectMedia={onSelectMedia}
@@ -352,9 +386,13 @@ export default function Edit({
 							mediaUrl,
 							mediaWidth,
 							dimRatio,
+							useFeaturedImage,
+							featuredImage,
+							media,
 						}}
 					/>
 				)}
+
 				<div {...innerBlocksProps} />
 			</div>
 		</>

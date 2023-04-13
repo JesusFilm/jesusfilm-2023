@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "jf/table-of-contents",
+	"title": "JF Table of Contents",
+	"category": "layout",
+	"icon": "smiley",
+	"description": "Summarize your post with a list of headings. Add HTML anchors to Heading blocks to link them here.",
+	"keywords": [ "document outline", "summary" ],
+	"textdomain": "default",
+	"attributes": {
+		"onlyIncludeCurrentPage": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [ "postId" ],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php"
+}

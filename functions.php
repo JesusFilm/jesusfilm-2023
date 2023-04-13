@@ -51,11 +51,13 @@ function register_blocks_init() {
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/expandable-menu-item' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/more-link' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/card' );
-	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/template-part' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/breadcrumbs' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/blog' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/blog-template', array( 'skip_inner_blocks' => true ) );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/blog-filter' );
+	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/table-of-contents' );
+	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/accordion' );
+	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/team' );
 }
 \add_action( 'init', __NAMESPACE__ . '\register_blocks_init' );
 
@@ -67,9 +69,17 @@ function register_blocks_init() {
 function clip_paths() {
 	?>
 
-	<svg class="clip-path" style="display: none">
+	<svg class="clip-path">
 		<clipPath id="clip-path-1" clipPathUnits="objectBoundingBox"><path d="M0.049,0 C0.022,0,0,0.03,0,0.066 v0.508 c0,0.03,0.015,0.056,0.035,0.064 l0.941,0.361 c0.012,0.004,0.023,-0.008,0.023,-0.024 V0.066 C1,0.03,0.978,0,0.951,0 H0.049"></path></clipPath>
 	</svg>
+
+	<script>
+		document.addEventListener( 'splideReady', function( e ) {
+			e.detail.defaults = {
+				arrowPath: 'M33.7,12.7c5.4,3.4,5.4,11.2,0,14.6L15.5,38.7c-5.7,3.6-13.2-0.5-13.2-7.3V8.6c0-6.8,7.4-10.9,13.2-7.3L33.7,12.7z'
+			};
+		} );
+	</script>
 
 	<?php
 }
@@ -98,6 +108,11 @@ function excerpt_more( $more ) {
 }
 \add_filter( 'excerpt_more', __NAMESPACE__ . '\excerpt_more' );
 
+/**
+ * Register API endpoints
+ *
+ * @return void
+ */
 function rest_api_init() {
 	\register_rest_route(
 		'jf/v1',
@@ -111,6 +126,12 @@ function rest_api_init() {
 }
 \add_action( 'rest_api_init', __NAMESPACE__ . '\rest_api_init' );
 
+/**
+ * Blog endpoints
+ *
+ * @param WP_REST_Request $request Request object.
+ * @return string
+ */
 function rest_api_blog_endpoint( $request ) {
 	$block = json_decode( base64_decode( $request->get_param( 'block' ) ) );
 
@@ -134,7 +155,7 @@ function rest_api_blog_endpoint( $request ) {
 		return '';
 	}
 
-	if ( block_core_post_template_uses_featured_image( $block->inner_blocks ) ) {
+	if ( jf_block_post_template_uses_featured_image( $block->inner_blocks ) ) {
 		update_post_thumbnail_cache( $query );
 	}
 
@@ -178,7 +199,7 @@ function rest_api_blog_endpoint( $request ) {
 		$content     .= '<li class="' . esc_attr( $post_classes ) . '">' . $block_content . '</li>';
 	}
 
-	$content = apply_filters( 'render_block', $content, $block->parsed_block, $block );
+	$content = apply_filters( 'render_block', $content, $block->parsed_block, $block ); // phpcs:ignore
 	// $content = gutenberg_render_layout_support_flag( $content, $block->parsed_block );
 
 	// $core_styles_keys         = array( 'block-supports' );
@@ -195,8 +216,6 @@ function rest_api_blog_endpoint( $request ) {
 	// $compiled_core_stylesheet .= wp_style_engine_get_stylesheet_from_context( $style_key, array() );
 	// }
 
-	// var_dump( $compiled_core_stylesheet );
-
 	/*
 	* Use this function to restore the context of the template tags
 	* from a secondary query loop back to the main query loop.
@@ -207,3 +226,49 @@ function rest_api_blog_endpoint( $request ) {
 	return rest_ensure_response( $content );
 
 }
+
+/**
+ * Render card featured image
+ *
+ * @param string   $block_content Block content.
+ * @param array    $block Block attributes.
+ * @param WP_Block $instance Block instance.
+ * @return string
+ */
+function card_renderer( $block_content, $block, $instance ) {
+	if ( 'cloudcatch/cards-card' === $block['blockName'] ) {
+
+		if ( ! ( $block['attrs']['useFeaturedImage'] ?? false ) ) {
+			return $block_content;
+		}
+
+		if ( ! isset( $instance->context['postId'] ) ) {
+			return $block_content;
+		}
+
+		$post_ID        = $instance->context['postId'];
+		$featured_image = get_the_post_thumbnail_url( $post_ID, 'full' );
+
+		$w = new \WP_HTML_Tag_Processor( $block_content );
+		$w->next_tag(
+			array(
+				'class_name' => 'wp-block-card__media',
+			)
+		);
+
+		$w->next_tag();
+
+		if ( 'IMG' === $w->get_tag() ) {
+			if ( $featured_image ) {
+				$w->set_attribute( 'src', $featured_image );
+			} else {
+				$w->set_attribute( 'style', 'display: none;' );
+			}       
+		}
+
+		return $w;
+	}
+
+	return $block_content;
+}
+\add_filter( 'render_block', __NAMESPACE__ . '\card_renderer', 10, 3 );

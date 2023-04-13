@@ -3,7 +3,10 @@
  * Title: Hero Section
  * Slug: jf/hero-section
  * Categories: featured
+ * 
+ * @package JesusFilm/JesusFilm-2023
  */
+
 ?>
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|32","bottom":"var:preset|spacing|32"}}},"className":"hero-section","layout":{"type":"constrained"}} -->
 <div class="wp-block-group hero-section" style="padding-top:var(--wp--preset--spacing--32);padding-bottom:var(--wp--preset--spacing--32)"><!-- wp:columns -->
@@ -35,7 +38,7 @@
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":11317,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQzIiBoZWlnaHQ9IjM5NyIgdmlld0JveD0iMCAwIDU0MyAzOTciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iLjEyNyIgd2lkdGg9IjU0MiIgaGVpZ2h0PSIzOTciIHJ4PSI4IiBmaWxsPSIjODM4MzgzIi8+PC9zdmc+" alt="" /></figure>
+<figure class="wp-block-image size-large"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjU5LjIiIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCA5MDAgNjU5LjIiPjxwYXRoIGQ9Ik0xMy4zIDBoODczLjRDODk0IDAgOTAwIDUuOSA5MDAgMTMuM1Y2NDZjMCA3LjMtNS45IDEzLjMtMTMuMyAxMy4zSDEzLjNDNiA2NTkuMyAwIDY1My40IDAgNjQ2VjEzLjNDMCA1LjkgNS45IDAgMTMuMyAweiIgc3R5bGU9ImZpbGw6IzgzODM4MyIvPjwvc3ZnPg==" alt="" /></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

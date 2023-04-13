@@ -143,7 +143,7 @@
 					"name": "50px"
 				},
 				{
-					"size": "clamp(3.75rem, 2.2881rem + 5.6497vw, 5rem)",
+					"size": "60px",
 					"slug": "60",
 					"name": "60px"
 				},
@@ -153,9 +153,14 @@
 					"name": "64px"
 				},
 				{
-					"size": "clamp(3.75rem, 0.8263rem + 11.2994vw, 6.25rem)",
+					"size": "80px",
 					"slug": "80",
 					"name": "80px"
+				},
+				{
+					"size": "100px",
+					"slug": "100",
+					"name": "100px"
 				},
 				{
 					"size": "clamp(3.75rem, -0.6356rem + 16.9492vw, 7.5rem)",
@@ -430,9 +435,9 @@
 					"size": "17px"
 				},
 				{
-					"slug": "medium",
-					"name": "Medium",
-					"size": "17px"
+					"slug": "large",
+					"name": "Large",
+					"size": "19px"
 				},
 				{
 					"slug": "heading-1",
@@ -622,7 +627,7 @@
 			},
 			"core/separator": {
 				"color": {
-					"text": "var(--wp--preset--color--gray)"
+					"text": "var(--wp--preset--color--light-soft-gray)"
 				},
 				"border": {
 					"bottom": {
@@ -668,6 +673,18 @@
 					}
 				}
 			},
+			"core/query-pagination-numbers": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--apercupro)",
+					"fontSize": "15px",
+					"fontWeight": "500"
+				}
+			},
+			"core/query-pagination": {
+				"spacing": {
+					"blockGap": "var(--wp--preset--spacing--12)"
+				}
+			},
 			"core/navigation": {
 				"spacing": {
 					"blockGap": "var(--wp--preset--spacing--12)"
@@ -686,11 +703,28 @@
 							"textDecoration": "none"
 						},
 						":hover": {
+							"color": {
+								"text": "var(--wp--preset--color--red)"
+							},
 							"typography": {
 								"textDecoration": "none"
 							}
 						}
 					}
+				}
+			},
+			"core/table-of-contents": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--apercupro)",
+					"fontSize": "var(--wp--preset--font-size--medium)",
+					"fontWeight": "500"
+				}
+			},
+			"jf/table-of-contents": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--apercupro)",
+					"fontSize": "var(--wp--preset--font-size--medium)",
+					"fontWeight": "500"
 				}
 			}
 		},
@@ -828,9 +862,9 @@
 			"blockGap": "20px",
 			"padding": {
 				"top": "0",
-				"right": "var(--wp--preset--spacing--20)",
+				"right": "var(--wp--preset--spacing--32)",
 				"bottom": "0",
-				"left": "var(--wp--preset--spacing--20)"
+				"left": "var(--wp--preset--spacing--32)"
 			}
 		},
 		"typography": {
@@ -849,6 +883,11 @@
 			"title": "Footer",
 			"name": "footer",
 			"area": "footer"
+		},
+		{
+			"title": "Mission Trip",
+			"name": "content-mission-trip",
+			"area": "uncategorized"
 		}
 	]
 }

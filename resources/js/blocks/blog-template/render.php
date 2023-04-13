@@ -1,7 +1,13 @@
 <?php
-
-
-
+/**
+ * Bloc template renderer.
+ * 
+ * @global $attributes array The block attributes.
+ * @global $content string The block default content.
+ * @global $block WP_Block The block instance.
+ * 
+ * @package JesusFilm/JesusFilm-2023
+ */
 
 // Use global query if needed.
 $use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );

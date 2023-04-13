@@ -17,6 +17,28 @@ const prependFile = require('prepend-file');
 const path = require('path');
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 
+/*
+ * Monitor files for changes and inject your changes into the browser.
+ *
+ */
+if (process.env.sync) {
+    var bs = require("browser-sync").create();
+
+    bs.init({
+        notify: false,
+        proxy: process.env.MIX_PROXY,
+        port: process.env.MIX_PORT,
+        files: [
+            'assets/**/.js',
+            'assets/**/.css',
+            'patterns/*',
+            'parts/*',
+            'templates/*',
+            'functions.php',
+            '*.css',
+        ]
+    });
+}
 
 /*
  * Disable all notifications.
@@ -118,6 +140,18 @@ mix
         `${devPath}/js/blocks/blog-filter/index.js`
     ], `${distPath}/js/blocks/blog-filter/index.js`)
     .js([
+        `${devPath}/js/blocks/table-of-contents/index.js`
+    ], `${distPath}/js/blocks/table-of-contents/index.js`)
+    .js([
+        `${devPath}/js/blocks/accordion/index.js`
+    ], `${distPath}/js/blocks/accordion/index.js`)
+    .js([
+        `${devPath}/js/blocks/team/index.js`
+    ], `${distPath}/js/blocks/team/index.js`)
+    .js([
+        `${devPath}/js/blocks/team/view.js`
+    ], `${distPath}/js/blocks/team/view.js`)
+    .js([
         `${devPath}/js/editor.js`
     ], `${distPath}/js/editor.js`).react();
 
@@ -169,6 +203,10 @@ mix
 
         await prependFile('style.css', banner);
 
+        if (process.env.sync) {
+            bs.reload("*.css");
+        }
+
         console.log('\x1b[34m', '\nstyle.css banner generated.');
     })
     .sass(`${devPath}/scss/editor.scss`, `${distPath}/css/editor.css`, sassConfig);
@@ -197,13 +235,13 @@ mix.webpackConfig({
                 { from: `${devPath}/svg`, to: `${distPath}/svg` },
                 { from: `${devPath}/fonts`, to: `${distPath}/fonts` },
                 { 
-                    from: `${devPath}/js/blocks/**/block.json`, 
+                    from: `${devPath}/js/blocks/*/block.json`, 
                     to({ context, absoluteFilename }) {
                         return `${distPath}/${path.relative(context + `/resources`, absoluteFilename)}`;
                     },
                 },
                 { 
-                    from: `${devPath}/js/blocks/**/*.php`, 
+                    from: `${devPath}/js/blocks/*/*.php`, 
                     to({ context, absoluteFilename }) {
                         return `${distPath}/${path.relative(context + `/resources`, absoluteFilename)}`;
                     },
@@ -230,31 +268,3 @@ mix.webpackConfig({
         })
     ]
 });
-
-if (process.env.sync) {
-
-    /*
-     * Monitor files for changes and inject your changes into the browser.
-     *
-     * @link https://laravel.com/docs/5.6/mix#browsersync-reloading
-     */
-    mix.browserSync({
-        notify: false,
-        proxy: process.env.MIX_PROXY,
-        host: process.env.MIX_HOST,
-        open: 'external',
-        port: process.env.MIX_PORT,
-        https: {
-            'key': process.env.MIX_KEY,
-            'cert': process.env.MIX_CRT
-        },
-        files: [
-            'assets/css/*.css',
-            'assets/js/*.js',
-            'parts/*.html',
-            'templates/*.html',
-            'functions.php',
-            'style.css',
-        ]
-    });
-}

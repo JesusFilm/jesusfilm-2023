@@ -7,10 +7,7 @@
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>node_modules/*</exclude-pattern>
-    <!--<exclude-pattern>*/app/*</exclude-pattern>-->
-	<exclude-pattern>*/app/autoload.php</exclude-pattern>
-	<exclude-pattern>*/app/composer/*</exclude-pattern>
-	<exclude-pattern>*/app/tgmpa/*</exclude-pattern>
+	<exclude-pattern>assets/*</exclude-pattern>
 	<!-- Pass flags to PHPCS:
 		 p: Show progress of the run.
 		 s: Show sniff codes in all reports.
@@ -36,6 +33,7 @@
 			<property name="prefixes" type="array" value="jesusfilm"/>
 		</properties>
 		<exclude-pattern>render.php</exclude-pattern>
+		<exclude-pattern>template-parts/*</exclude-pattern>
 	</rule>
 	<rule ref="WordPress.WP.I18n">
 		<properties>

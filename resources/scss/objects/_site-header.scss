@@ -11,8 +11,8 @@
 		@media (min-width: 782px) {
 			display: block;
 			height: var(--wp--custom--header-height--desktop);
-			padding-top: 69px;
-			padding-bottom: 56px;
+			padding-top: 69px !important;
+			padding-bottom: 56px !important;
 		}
 
 		> div {

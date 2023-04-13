@@ -14,4 +14,13 @@
 	.is-style-brand-red {
 		background-image: url("../img/jfp-brand-bg.jpg") !important;
 	}
+
+	.wp-block-card__content .block-list-appender {
+		width: 100%;
+	}
+
+	.wp-block-jf-team__media .block-editor-media-placeholder {
+		height: 100%;
+		border-radius: 8px;
+	}
 }

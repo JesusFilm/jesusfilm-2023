@@ -46,6 +46,13 @@
 				justify-content: flex-end;
 			}
 		}
+
+		.gfield_checkbox,
+		.gfield_radio {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
 	}
 
 }

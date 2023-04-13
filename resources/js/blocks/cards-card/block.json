@@ -5,7 +5,6 @@
 	"version": "0.0.0-development",
 	"title": "Card",
 	"category": "design",
-	"icon": "smiley",
 	"parent": [
 		"cloudcatch/cards"
 	],
@@ -83,7 +82,7 @@
 			"type": "number"
 		}
 	},
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"anchor": true,
 		"reusable": false,
@@ -131,6 +130,12 @@
 		},
 		"__experimentalLayout": {
 			"allowSizingOnChildren": true
+		},
+		"dimensions": {
+			"minHeight": true,
+			"__experimentalDefaultControls": {
+				"minHeight": true
+			}
 		}
 	},
 	"textdomain": "cards",

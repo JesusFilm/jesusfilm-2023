@@ -23,4 +23,20 @@
 			}
 		}
 	}
+
+	&__arrow {
+		display: inline-flex;
+		background: none;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 12.5px;
+			height: 10px;
+
+			path {
+				fill: var(--wp--preset--color--dark-gray);
+			}
+		}
+	}
 }

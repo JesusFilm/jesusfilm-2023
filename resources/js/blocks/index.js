@@ -6,11 +6,13 @@ import * as expandableMenuItem from './expandable-menu-item';
 import * as cards from './cards';
 import * as cardsCard from './cards-card';
 import * as card from './card';
-import * as templatePart from './template-part';
 import * as breadcrumbs from './breadcrumbs';
 import * as blog from './blog';
 import * as blogTemplate from './blog-template';
 import * as blogFilter from './blog-filter';
+import * as tableOfContents from './table-of-contents';
+import * as accordion from './accordion';
+import * as team from './team';
 
 const blocks = [
 	moreLink,
@@ -19,11 +21,13 @@ const blocks = [
 	cards,
 	cardsCard,
 	card,
-	templatePart,
 	breadcrumbs,
 	blog,
 	blogTemplate,
 	blogFilter,
+	tableOfContents,
+	accordion,
+	team,
 ];
 
 const registerBlock = (block) => {

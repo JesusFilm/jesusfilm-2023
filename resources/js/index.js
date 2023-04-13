@@ -135,7 +135,7 @@ import { DisclosureMenu } from 'accessible-menu';
 			'.site-header .wp-block-search__input'
 		);
 
-		const headerSearchToggle = (e) => {
+		const headerSearchToggle = () => {
 			const expanded =
 				'true' === headerSearchForm.getAttribute('aria-expanded') ||
 				false;

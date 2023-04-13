@@ -45,11 +45,36 @@ function PlaceholderContainer({ className, mediaUrl, onSelectMedia }) {
 }
 
 function MediaContainer(props) {
-	const { mediaAlt, mediaId, mediaType, mediaUrl } = props;
+	const {
+		mediaAlt,
+		mediaId,
+		mediaType,
+		mediaUrl,
+		useFeaturedImage,
+		featuredImage,
+		media,
+	} = props;
 
 	const isTemporaryMedia = !mediaId && isBlobURL(mediaUrl);
 
 	const classes = classnames('wp-block-card__media');
+
+	if (useFeaturedImage) {
+		if (!featuredImage) {
+			return (
+				<figure className={classes}>
+					<PlaceholderContainer {...props} />
+				</figure>
+			);
+		} else if (!media) {
+			return (
+				<figure className={classes}>
+					<PlaceholderContainer {...props} />
+				</figure>
+			);
+		}
+		return <img src={media.source_url} alt={media.alt} />;
+	}
 
 	if (mediaUrl) {
 		const mediaTypeRenderers = {

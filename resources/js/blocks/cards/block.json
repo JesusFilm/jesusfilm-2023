@@ -5,15 +5,19 @@
 	"version": "0.0.0-development",
 	"title": "Cards",
 	"category": "design",
-	"icon": "smiley",
 	"description": "Rich card cards.",
 	"attributes": {
+		"verticalAlignment": {
+			"type": "string"
+		},
 		"columns": {
 			"type": "number",
 			"minimum": 1,
-			"maximum": 6
+			"maximum": 6,
+			"default": 3
 		}
 	},
+	"usesContext": [ "queryId", "query", "queryContext", "postId" ],
 	"supports": {
 		"anchor": true,
 		"align": [
