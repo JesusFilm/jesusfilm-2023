@@ -47,8 +47,6 @@ function theme_setup() {
 function register_blocks_init() {
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/cards' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/cards-card' );
-	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/expandable-menu' );
-	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/expandable-menu-item' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/more-link' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/card' );
 	register_block_type_from_metadata( __DIR__ . '/assets/js/blocks/breadcrumbs' );
@@ -118,6 +116,7 @@ function rest_api_init() {
 		'jf/v1',
 		'/blog',
 		array(
+			'methods'           => \WP_REST_Server::ALLMETHODS,
 			'validate_callback' => '__return_true',
 			'callback'          => __NAMESPACE__ . '\rest_api_blog_endpoint',
 
@@ -133,7 +132,8 @@ function rest_api_init() {
  * @return string
  */
 function rest_api_blog_endpoint( $request ) {
-	$block = json_decode( base64_decode( $request->get_param( 'block' ) ) );
+	$body  = json_decode( $request->get_body() );
+	$block = json_decode( $body->block );
 
 	$block->context      = json_decode( json_encode( $block->context ), true );
 	$block->parsed_block = json_decode( json_encode( $block->parsed_block ), true );
@@ -155,9 +155,12 @@ function rest_api_blog_endpoint( $request ) {
 		return '';
 	}
 
-	if ( jf_block_post_template_uses_featured_image( $block->inner_blocks ) ) {
-		update_post_thumbnail_cache( $query );
-	}
+	header( "X-Wp-Total: $query->found_posts" );
+	header( "X-Wp-Totalpages: $query->max_num_pages" );
+
+	// if ( jf_block_post_template_uses_featured_image( $block->inner_blocks ) ) {
+	// update_post_thumbnail_cache( $query );
+	// }
 
 	$classnames = '';
 	if ( isset( $block->context['displayLayout'] ) && isset( $block->context['query'] ) ) {
@@ -272,3 +275,27 @@ function card_renderer( $block_content, $block, $instance ) {
 	return $block_content;
 }
 \add_filter( 'render_block', __NAMESPACE__ . '\card_renderer', 10, 3 );
+
+/**
+ * Redirect to URL if query parameter is provided.
+ *
+ * @return void
+ */
+function branded_checkout_redirect_callback() {
+	?>
+
+	<script>
+		function brandedCheckoutRedirect() {
+			const queryString = window.location.search;
+			const urlParams = new URLSearchParams(queryString);
+			const maybeRedirect = urlParams.get('thankYouRedirect');
+			if (maybeRedirect && maybeRedirect.length > 0) {
+				window.location = maybeRedirect;
+			}
+		}
+		window.onOrderCompleted = function () { brandedCheckoutRedirect(); };
+	</script>
+
+	<?php
+}
+\add_action( 'wp_footer', __NAMESPACE__ . '\branded_checkout_redirect_callback' );

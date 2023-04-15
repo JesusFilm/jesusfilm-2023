@@ -5,6 +5,16 @@ import { DisclosureMenu } from 'accessible-menu';
 		expanded(e) {
 			if (document.querySelector('.site-header').contains(e.target)) {
 				document.body.classList.add('megamenu-expanded');
+
+				const headerSearchForm = document.querySelector(
+					'.site-header__actions > .wp-block-search'
+				);
+				const headerSearchInput = headerSearchForm.querySelector(
+					'.wp-block-search__input'
+				);
+
+				headerSearchForm.setAttribute('aria-expanded', 'false');
+				headerSearchInput.blur();
 			}
 
 			setTimeout(() => {
@@ -129,10 +139,10 @@ import { DisclosureMenu } from 'accessible-menu';
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const headerSearchForm = document.querySelector(
-			'.site-header .wp-block-search'
+			'.site-header__actions > .wp-block-search'
 		);
 		const headerSearchInput = headerSearchForm.querySelector(
-			'.site-header .wp-block-search__input'
+			'.wp-block-search__input'
 		);
 
 		const headerSearchToggle = () => {

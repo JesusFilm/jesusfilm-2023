@@ -1,0 +1,63 @@
+details {
+	overflow: hidden;
+	border: 1px solid var(--wp--preset--color--tan);
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+
+	summary {
+		display: flex;
+		overflow: hidden;
+		flex-direction: column;
+		position: relative;
+		padding: var(--wp--preset--spacing--24) var(--wp--preset--spacing--80) var(--wp--preset--spacing--24) var(--wp--preset--spacing--24);
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+		color: var(--wp--preset--color--dark-gray);
+		background-color: var(--wp--preset--color--white);
+		font-family: var(--wp--preset--font-family--apercupro);
+		font-size: var(--wp--preset--font-size--large);
+		font-weight: 500;
+		line-height: 1.21;
+		gap: 10px;
+
+		&::marker,
+		&::-webkit-details-marker {
+			display: none;
+			content: "";
+		}
+
+		&:after {
+			display: inline-flex;
+			position: absolute;
+			top: calc(50% - 17px);
+			right: var(--wp--preset--spacing--20);
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			background: var(--wp--preset--color--dark-gray) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='9' viewBox='0 0 10 9' fill='none'%3E%3Cpath fill='%23fff' d='M4.302.01v3.312H.99v1.944h3.312v3.312h1.944V5.266h3.312V3.322H6.246V.01H4.302Z'/%3E%3C/svg%3E") center/10px no-repeat;
+			content: "";
+			cursor: pointer;
+			transition: all ease 0.2s;
+			align-items: center;
+			justify-content: center;
+		}
+
+		+ div {
+			padding: var(--wp--preset--spacing--24);
+			background-color: var(--wp--preset--color--tan);
+
+			> :first-child {
+				margin-top: 0;
+			}
+
+			> :last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&[open] > summary:after {
+		background-color: var(--wp--preset--color--red);
+		transform: rotate(45deg);
+	}
+}

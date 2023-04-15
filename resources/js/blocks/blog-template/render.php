@@ -8,15 +8,50 @@
  * 
  * @package JesusFilm/JesusFilm-2023
  */
+$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+$max_page = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
 
 // Use global query if needed.
 $use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );
 if ( $use_global_query ) {
 	global $wp_query;
 	$query = clone $wp_query;
+
+	$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+	$paginate_args = array(
+		'prev_next' => false,
+		'total'     => $total,
+	);
+	
+	$pagination = paginate_links( $paginate_args );
 } else {
-	$query_args = build_query_vars_from_query_block( $block, $page );
-	$query      = new WP_Query( $query_args );
+	$query = new WP_Query( build_query_vars_from_query_block( $block, $page ) );
+	// `paginate_links` works with the global $wp_query, so we have to
+	// temporarily switch it with our custom query.
+	$prev_wp_query = $wp_query;
+	$wp_query      = $query;
+	$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+	$paginate_args = array(
+		'base'      => '%_%',
+		'format'    => "?$page_key=%#%",
+		'current'   => max( 1, $page ),
+		'total'     => $total,
+		'prev_next' => false,
+	);
+	if ( 1 !== $page ) {
+		$paginate_args['add_args'] = array( 'cst' => '' );
+	}
+	// We still need to preserve `paged` query param if exists, as is used
+	// for Queries that inherit from global context.
+	$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged'];
+	if ( $paged ) {
+		$paginate_args['add_args'] = array( 'paged' => $paged );
+	}
+	$pagination = paginate_links( $paginate_args );
+	wp_reset_postdata(); // Restore original Post Data.
+	$wp_query = $prev_wp_query;
+
 }
 
 // Get an instance of the current Post Template block.
@@ -50,8 +85,13 @@ while ( $query->have_posts() ) {
 
 ?>
 <div 
-<?php echo get_block_wrapper_attributes( array( 'data-block' => urlencode( base64_encode( json_encode( $block ) ) ) ) ); ?>>
+<?php echo get_block_wrapper_attributes( array( 'data-block' => json_encode( $block ) ) ); ?>>
 	<ul class="wp-block-jf-blog-template__posts"><?php echo $content; ?></ul>
+
+	<?php 
+	if ( ! empty( $pagination ) ) {
+		print $pagination;} 
+	?>
 </div>
 
 <?php

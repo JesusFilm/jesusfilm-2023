@@ -22,6 +22,26 @@
 	}
 }
 
-.campaign-form .form-group {
-	margin-bottom: 1em;
+.campaign-form {
+
+	+ small {
+		display: block;
+		font-family: var(--wp--preset--font-family--apercupro);
+		font-size: var(--wp--preset--font-size--tiny);
+		font-weight: 400;
+		line-height: 1.33;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 1em;
+
+		label {
+			padding-top: var(--wp--preset--spacing--4);
+			padding-left: var(--wp--preset--spacing--20);
+			font-size: var(--wp--preset--font-size--tiny);
+			order: 1;
+		}
+	}
 }

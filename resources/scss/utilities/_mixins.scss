@@ -41,6 +41,7 @@
 		border-color: currentcolor;
 		color: var(--wp--preset--color--dark-gray);
 		background-color: transparent;
+		box-shadow: none;
 	}
 
 	@if $size == "small" {

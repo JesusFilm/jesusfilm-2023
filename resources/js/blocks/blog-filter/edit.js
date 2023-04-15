@@ -13,7 +13,12 @@ import { store as coreStore, useEntityRecords } from '@wordpress/core-data';
 function RenderTermsList(props) {
 	const { taxonomy } = props;
 
-	const query = { per_page: -1, hide_empty: true, context: 'view' };
+	const query = {
+		per_page: -1,
+		hide_empty: true,
+		orderby: 'name',
+		context: 'view',
+	};
 	const { records: terms, isResolving } = useEntityRecords(
 		'taxonomy',
 		taxonomy,
@@ -24,13 +29,17 @@ function RenderTermsList(props) {
 		return <></>;
 	}
 
-	return terms.map((item) => {
-		return (
-			<li key={item.slug}>
-				<a>{item.name}</a>
-			</li>
-		);
-	});
+	return (
+		<ul>
+			{terms.map((item) => {
+				return (
+					<li key={item.slug}>
+						<a>{item.name}</a>
+					</li>
+				);
+			})}
+		</ul>
+	);
 }
 
 export default function Edit({

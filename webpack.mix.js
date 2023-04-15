@@ -113,12 +113,6 @@ mix
         `${devPath}/js/blocks/cards-card/index.js`
     ], `${distPath}/js/blocks/cards-card/index.js`)
     .js([
-        `${devPath}/js/blocks/expandable-menu/index.js`
-    ], `${distPath}/js/blocks/expandable-menu/index.js`)
-    .js([
-        `${devPath}/js/blocks/expandable-menu-item/index.js`
-    ], `${distPath}/js/blocks/expandable-menu-item/index.js`)
-    .js([
         `${devPath}/js/blocks/card/index.js`
     ], `${distPath}/js/blocks/card/index.js`)
     .js([
@@ -139,6 +133,9 @@ mix
     .js([
         `${devPath}/js/blocks/blog-filter/index.js`
     ], `${distPath}/js/blocks/blog-filter/index.js`)
+    .js([
+        `${devPath}/js/blocks/blog-filter/view.js`
+    ], `${distPath}/js/blocks/blog-filter/view.js`)
     .js([
         `${devPath}/js/blocks/table-of-contents/index.js`
     ], `${distPath}/js/blocks/table-of-contents/index.js`)

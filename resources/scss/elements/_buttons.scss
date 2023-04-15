@@ -1,11 +1,26 @@
 [type="submit"],
 [type="reset"],
-.button {
+.button,
+.gb-button {
 
 	@include button();
 
 	&.small {
 
 		@include button("small");
+	}
+}
+
+[type="submit"],
+[type="reset"] {
+
+	.is-style-brand-red & {
+		color: var(--wp--preset--color--dark-gray);
+		background-color: var(--wp--preset--color--tan);
+
+		&:hover {
+			color: var(--wp--preset--color--tan);
+			background-color: transparent;
+		}
 	}
 }

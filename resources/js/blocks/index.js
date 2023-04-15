@@ -1,8 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 
 import * as moreLink from './more-link';
-import * as expandableMenu from './expandable-menu';
-import * as expandableMenuItem from './expandable-menu-item';
 import * as cards from './cards';
 import * as cardsCard from './cards-card';
 import * as card from './card';
@@ -16,8 +14,6 @@ import * as team from './team';
 
 const blocks = [
 	moreLink,
-	expandableMenu,
-	expandableMenuItem,
 	cards,
 	cardsCard,
 	card,

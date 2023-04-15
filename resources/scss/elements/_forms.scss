@@ -5,6 +5,10 @@ form {
 #{$form-fields} {
 
 	@include text-input();
+
+	.is-style-brand-red & {
+		border-color: transparent;
+	}
 }
 
 input[type="radio"] {

@@ -1,0 +1,60 @@
+@use "sass:math";
+
+$spacing--xxxs: math.div(16px, 8);
+$spacing--xxs: math.div(16px, 5);
+$spacing--xs: math.div(16px, 3);
+$spacing--s: math.div(16px, 2);
+$spacing--m: 16px;
+$spacing--l: 16px * 2;
+$spacing--xl: 16px * 3;
+$spacing--xxl: 16px * 4;
+$spacing--xxxl: 16px * 8;
+
+$spacing: (
+	"auto": "auto",
+	0: 0,
+	xxxs: $spacing--xxxs,
+	xxs: $spacing--xxs,
+	xs: $spacing--xs,
+	s: $spacing--s,
+	m: $spacing--m,
+	l: $spacing--l,
+	xl: $spacing--xl,
+	xxl: $spacing--xxl,
+	xxxl: $spacing--xxxl,
+);
+
+@each $spacing-name, $spacing-value in $spacing {
+
+	.padding-top-#{ $spacing-name } {
+		padding-top: #{ $spacing-value };
+	}
+
+	.padding-right-#{ $spacing-name } {
+		padding-right: #{ $spacing-value };
+	}
+
+	.padding-bottom-#{ $spacing-name } {
+		padding-bottom: #{ $spacing-value };
+	}
+
+	.padding-left-#{ $spacing-name } {
+		padding-left: #{ $spacing-value };
+	}
+
+	.margin-top-#{ $spacing-name } {
+		margin-top: #{ $spacing-value };
+	}
+
+	.margin-right-#{ $spacing-name } {
+		margin-right: #{ $spacing-value };
+	}
+
+	.margin-bottom-#{ $spacing-name } {
+		margin-bottom: #{ $spacing-value };
+	}
+
+	.margin-left-#{ $spacing-name } {
+		margin-left: #{ $spacing-value };
+	}
+}

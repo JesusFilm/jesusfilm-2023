@@ -4,10 +4,6 @@
 		overflow: hidden;
 	}
 
-	.entry-content > * + * {
-		margin-block-start: 0;
-	}
-
 	.content {
 		margin: var(--wp--preset--spacing--32) 0;
 	}

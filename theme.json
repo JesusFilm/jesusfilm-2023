@@ -526,6 +526,15 @@
 					}
 				}
 			},
+			"core/heading": {
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "none"
+						}
+					}
+				}
+			},
 			"core/buttons": {
 				"spacing": {
 					"blockGap": "10px"

@@ -1,0 +1,15 @@
+@function text-contrast($color) {
+	$contrast-color: #fff;
+
+	$color-brightness: math.round((math.red($color) * 299) + (math.green($color) * 587) + (math.blue($color) * 114) / 1000);
+
+	$light-color: math.round((math.red(#fff) * 299) + (math.green(#fff) * 587) + (math.blue(#fff) * 114) / 1000);
+
+	@if abs($color-brightness) < ($light-color / 2) {
+		$contrast-color: #fff;
+	} @else {
+		$contrast-color: #000;
+	}
+
+	@return $contrast-color;
+}

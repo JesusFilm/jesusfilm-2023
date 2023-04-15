@@ -1,0 +1,9 @@
+.post {
+
+	&-password-form {
+
+		[type="submit"] {
+			margin-top: var(--wp--style--block-gap);
+		}
+	}
+}

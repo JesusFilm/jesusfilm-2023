@@ -276,6 +276,8 @@ function jf_block_table_of_contents_render_list(
 			$id      = $child_node['heading']['id'];
 			$content = $child_node['heading']['content'];
 
+			$content = trim( preg_replace( '/(^[\d]+[\.\)])(.*)/', '$2', $content ) );
+
 			if ( isset( $id ) ) {
 				if ( $multipage ) {
 					$href = add_query_arg(
