@@ -5,6 +5,13 @@
 	text-transform: uppercase;
 }
 
+.is-style-clip-path img {
+	width: 100%;
+	aspect-ratio: 542/397;
+	clip-path: url(#clip-path-1);
+	object-fit: cover;
+}
+
 .has-small-font-size {
 	line-height: 1.57;
 }

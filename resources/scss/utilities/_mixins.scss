@@ -52,6 +52,8 @@
 
 	@if $size == "narrow" {
 		min-width: 0;
+		padding-left: 18px;
+		padding-right: 18px;
 	}
 }
 
@@ -264,4 +266,30 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
+}
+
+@mixin default-post {
+	grid-column-end: span 2;
+	display: grid;
+	grid-template-columns: 184px 1fr;
+	grid-template-rows: auto auto auto auto;
+	gap: 0 var(--wp--preset--spacing--24);
+
+	.wp-block-post-featured-image {
+		grid-row-end: span 4;
+		grid-column-start: 1;
+
+		+ * {
+			margin-top: 0 !important;
+		}
+	}
+
+	.wp-block-post-title {
+		margin-top: var(--wp--preset--spacing--4) !important;
+		margin-bottom: var(--wp--preset--spacing--16) !important;
+	}
+
+	.wp-block-post-excerpt {
+		display: none;
+	}
 }

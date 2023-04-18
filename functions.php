@@ -132,8 +132,9 @@ function rest_api_init() {
  * @return string
  */
 function rest_api_blog_endpoint( $request ) {
-	$body  = json_decode( $request->get_body() );
-	$block = json_decode( $body->block );
+	$body       = json_decode( $request->get_body() );
+	$block      = json_decode( $body->block );
+	$query_args = $body->query;
 
 	$block->context      = json_decode( json_encode( $block->context ), true );
 	$block->parsed_block = json_decode( json_encode( $block->parsed_block ), true );
@@ -141,26 +142,15 @@ function rest_api_blog_endpoint( $request ) {
 	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
-	// Use global query if needed.
-	$use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );
-	if ( $use_global_query ) {
-		global $wp_query;
-		$query = clone $wp_query;
-	} else {
-		$query_args = build_query_vars_from_query_block( $block, $page );
-		$query      = new \WP_Query( $query_args );
-	}
+	$query_args = build_query_vars_from_query_block( $block, $page );
+	$query      = new \WP_Query( $query_args );
 
 	if ( ! $query->have_posts() ) {
-		return '';
+		return '<p>' . esc_html__( 'No results found.', 'jesusfilm-2023' ) . '</p>';
 	}
 
 	header( "X-Wp-Total: $query->found_posts" );
 	header( "X-Wp-Totalpages: $query->max_num_pages" );
-
-	// if ( jf_block_post_template_uses_featured_image( $block->inner_blocks ) ) {
-	// update_post_thumbnail_cache( $query );
-	// }
 
 	$classnames = '';
 	if ( isset( $block->context['displayLayout'] ) && isset( $block->context['query'] ) ) {
@@ -171,8 +161,6 @@ function rest_api_blog_endpoint( $request ) {
 	if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
 		$classnames .= ' has-link-color';
 	}
-
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => trim( $classnames ) ) );
 
 	$content = '';
 	while ( $query->have_posts() ) {
@@ -299,3 +287,74 @@ function branded_checkout_redirect_callback() {
 	<?php
 }
 \add_action( 'wp_footer', __NAMESPACE__ . '\branded_checkout_redirect_callback' );
+
+/**
+ * Provides deeper context to blog template + filter
+ *
+ * @param array         $context Default context.
+ * @param array         $parsed_block Block being rendered, filtered by render_block_data.
+ * @param WP_Block|null $parent_block If this is a nested block, a reference to the parent block.
+ * @return array
+ */
+function blog_block_context( $context, $parsed_block, $parent_block ) {
+
+	if ( isset( $parsed_block['blockName'], $parent_block->context ) && in_array( $parsed_block['blockName'], array( 'jf/blog-template', 'jf/blog-filter' ) ) ) {
+		$use_global_query = ( isset( $context['query']['inherit'] ) && $context['query']['inherit'] );
+		$page             = max( 1, get_query_var( 'paged' ) );
+		
+		$context['query']['perPage']        = $context['query']['perPage'] ?: get_option( 'posts_per_page', 10 );
+		$context['query']['originalOffset'] = $context['query']['offset'];
+		$context['query']['offset']         = ( $context['query']['perPage'] * ( $page - 1 ) ) + $context['query']['offset'];
+
+		if ( $use_global_query ) {
+			$context['query']['postType'] = get_query_var( 'post_type' ) ?? 'post';
+
+			if ( is_category() ) {
+				$context['query']['taxQuery'] = array(
+					'category' => array( get_query_var( 'cat' ) ),
+				);
+			} elseif ( is_tag() ) {
+				$context['query']['taxQuery'] = array(
+					'post_tag' => array( get_query_var( 'tag_id' ) ),
+				);
+			} elseif ( is_tax() ) {
+				$term = get_queried_object();
+
+				$context['query']['taxQuery'] = array(
+					$term->taxonomy => array( $term->term_id ),
+				);
+			} elseif ( is_search() ) {
+				$context['query']['search'] = get_query_var( 's' );
+			} elseif ( is_author() ) {
+				$context['query']['author'] = get_query_var( 'author' );
+			}
+		}
+	}
+
+	return $context;
+}
+\add_filter( 'render_block_context', __NAMESPACE__ . '\blog_block_context', 10, 3 );
+
+/**
+ * Display the start date + end date of mission trip
+ *
+ * @param string   $block_content Default block content.
+ * @param array    $attributes Block attributes.
+ * @param WP_Block $block Instance of the block.
+ * @param int      $post_id Post ID.
+ * @return string
+ */
+function meta_field_mission_trip_date( $block_content, $attributes, $block, $post_id ) {
+	$field_name = $attributes['fieldName'] ?? '';
+	$post_type  = get_post_type( $post_id );
+
+	if ( 'date_start' === $field_name && 'mission-trip' === $post_type ) {
+		$date_start = get_post_meta( $post_id, 'date_start', true );
+		$date_end   = get_post_meta( $post_id, 'date_end', true );
+
+		$block_content = gmdate( 'F j, Y', strtotime( $date_start ) ) . ' - ' . gmdate( 'F j, Y', strtotime( $date_end ) );
+	}
+
+	return $block_content;
+}
+\add_filter( 'meta_field_block_get_block_content', __NAMESPACE__ . '\meta_field_mission_trip_date', 10, 4 );

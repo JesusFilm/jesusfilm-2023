@@ -21,6 +21,11 @@ wp.domReady(() => {
 		label: 'Clip Path',
 	});
 
+	wp.blocks.registerBlockStyle('core/post-featured-image', {
+		name: 'clip-path',
+		label: 'Clip Path',
+	});
+
 	wp.blocks.registerBlockStyle('cloudcatch/cards-card', {
 		name: 'brand-red',
 		label: 'Brand Red',

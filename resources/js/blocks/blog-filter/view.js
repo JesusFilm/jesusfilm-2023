@@ -1,62 +1,109 @@
-import { React, useEffect, useState } from 'react';
-import * as ReactDOMClient from 'react-dom/client';
-import { getQueryArgs, buildQueryString } from '@wordpress/url';
-import apiFetch from '@wordpress/api-fetch';
+import {
+	createRoot,
+	useState,
+	createRef,
+	forwardRef,
+} from '@wordpress/element';
+import Select from 'react-select';
+import classNames from 'classnames';
 
-function BlogFilter(props) {
-	const [data, setData] = useState(props.initData || '');
-	const [blockProps, setBlockProps] = useState(props.block);
+const BlogFilter = forwardRef((props, ref) => {
+	const [data, setData] = useState(props.initData);
+	const { type, atts } = props;
 
-	const block = JSON.parse(decodeURIComponent(props.block));
+	const [value, setValue] = useState(null);
 
-	const queryId = block.context.queryId;
+	const selectFilter = (val) => {
+		let valValue = val.value;
 
-	// useEffect(() => {
-	// 	apiFetch({
-	// 		path: '/jf/v1/blog' + `?block=${blockProps}`,
-	// 	})
-	// 		.then((posts) => {
-	// 			setData(posts);
-	// 		})
-	// 		.catch(() => {
-	// 			// Do nothing
-	// 		});
-	// }, []);
+		const queryId = ref?.current
+			?.closest('[data-query-id]')
+			?.getAttribute('data-query-id');
 
-	// useEffect(() => {
-	// 	console.log(123);
-	// }, [blockProps]);
+		if (queryId) {
+			if (value === val) {
+				setValue(null);
+				valValue = '';
+			} else {
+				setValue(val);
+			}
 
-	// window[`jfQueryProxy${queryId}`] = new Proxy(window[`jfQuery${queryId}`], {
-	// 	set(target, key, value) {
-	// 		target[key] = value;
-
-	// 		setBlockProps(encodeURIComponent(JSON.stringify(target)));
-
-	// 		return true;
-	// 	},
-	// });
+			if ('taxonomy' === type) {
+				if ('' === valValue) {
+					window[`jfQueryProxy${queryId}`].taxQuery = {};
+				} else {
+					window[`jfQueryProxy${queryId}`].taxQuery = {
+						[atts.filterTaxonomy]: [valValue],
+					};
+				}
+			} else if ('author' === type) {
+				window[`jfQueryProxy${queryId}`].author = valValue;
+			}
+		}
+	};
 
 	return (
-		<ul
-			className="wp-block-jf-blog-template__posts"
-			dangerouslySetInnerHTML={{ __html: data }}
-		/>
+		<>
+			<ul className="wp-block-jf-blog-filter__list" ref={ref}>
+				{data.map((term) => (
+					<li
+						key={term.value}
+						data-key={term.value}
+						className={classNames({
+							selected: term.value === value?.value,
+						})}
+					>
+						<button onClick={(e) => selectFilter(term)}>
+							{type === 'author' && (
+								<img
+									src={term.extras.avatar}
+									alt={term.label}
+									aria-hidden="true"
+								/>
+							)}
+							{term.label}
+						</button>
+					</li>
+				))}
+			</ul>
+			<Select
+				className="wp-block-jf-blog-filter__select"
+				classNamePrefix="wp-block-jf-blog-filter__select"
+				value={value}
+				options={data}
+				formatOptionLabel={
+					'author' !== type
+						? null
+						: (author) => (
+								<>
+									<img
+										src={author.extras.avatar}
+										alt={author.label}
+									/>
+									{author.label}
+								</>
+						  )
+				}
+				onChange={(val, type) => selectFilter(val)}
+			/>
+		</>
 	);
-}
+});
 
 const elms = document.getElementsByClassName('wp-block-jf-blog-filter');
 
 window.addEventListener('DOMContentLoaded', () => {
 	for (let i = 0; i < elms.length; i++) {
-		const root = ReactDOMClient.createRoot(elms[i]);
+		const root = createRoot(elms[i]);
+		const ref = createRef();
 
 		root.render(
 			<BlogFilter
-				initData={elms[i].firstChild.innerHTML}
-				block={elms[i].getAttribute('data-block')}
+				ref={ref}
+				atts={JSON.parse(elms[i].getAttribute('data-attrs'))}
+				initData={JSON.parse(elms[i].getAttribute('data-data'))}
+				type={elms[i].getAttribute('data-type')}
 			/>
 		);
-		// elms[i].removeAttribute('data-query');
 	}
 });

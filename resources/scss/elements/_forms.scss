@@ -7,7 +7,7 @@ form {
 	@include text-input();
 
 	.is-style-brand-red & {
-		border-color: transparent;
+		border-color: transparent !important;
 	}
 }
 

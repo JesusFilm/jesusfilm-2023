@@ -3,11 +3,13 @@
 	<description>PHPCS Ruleset for a WordPress Theme</description>
 	<!-- Check files in this directory and subdirectories. -->
 	<file>functions.php</file>
+	<file>resources</file>
 	<!-- Prevent sniffs of some directories. -->
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>node_modules/*</exclude-pattern>
 	<exclude-pattern>assets/*</exclude-pattern>
+	<exclude-pattern>build/*</exclude-pattern>
 	<!-- Pass flags to PHPCS:
 		 p: Show progress of the run.
 		 s: Show sniff codes in all reports.

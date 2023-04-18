@@ -10,9 +10,15 @@
  */
 
 ?>
-<script>
-var jfQuery<?php echo (int) $block->parsed_block['attrs']['queryId']; ?> = JSON.parse('<?php echo json_encode( $block->parsed_block['attrs']['query'] ); ?>');
-</script>
-<div <?php echo get_block_wrapper_attributes( array( 'data-query' => json_encode( $attributes['query'] ) ) ); ?>>
+
+<div 
+<?php 
+echo get_block_wrapper_attributes(
+	array(
+		'data-query-id' => $attributes['queryId'],
+	) 
+); 
+?>
+>
 	<?php echo $content; ?>
 </div>
