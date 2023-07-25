@@ -142,15 +142,21 @@ function rest_api_blog_endpoint( $request ) {
 	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
-	$query_args = build_query_vars_from_query_block( $block, $page );
-	$query      = new \WP_Query( $query_args );
+	$query = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
 
 	if ( ! $query->have_posts() ) {
 		return '<p>' . esc_html__( 'No results found.', 'jesusfilm-2023' ) . '</p>';
 	}
 
-	header( "X-Wp-Total: $query->found_posts" );
-	header( "X-Wp-Totalpages: $query->max_num_pages" );
+	$found_posts   = $query->found_posts;
+	$max_num_pages = $query->max_num_pages;
+
+	if ( isset( $query_args->pages ) && $query_args->pages > 0 ) {
+		$max_num_pages = (int) $query_args->pages;
+	}
+
+	header( "X-Wp-Total: $found_posts" );
+	header( "X-Wp-Totalpages: $max_num_pages" );
 
 	$classnames = '';
 	if ( isset( $block->context['displayLayout'] ) && isset( $block->context['query'] ) ) {
@@ -301,7 +307,7 @@ function blog_block_context( $context, $parsed_block, $parent_block ) {
 	if ( isset( $parsed_block['blockName'], $parent_block->context ) && in_array( $parsed_block['blockName'], array( 'jf/blog-template', 'jf/blog-filter' ) ) ) {
 		$use_global_query = ( isset( $context['query']['inherit'] ) && $context['query']['inherit'] );
 		$page             = max( 1, get_query_var( 'paged' ) );
-		
+
 		$context['query']['perPage']        = $context['query']['perPage'] ?: get_option( 'posts_per_page', 10 );
 		$context['query']['originalOffset'] = $context['query']['offset'];
 		$context['query']['offset']         = ( $context['query']['perPage'] * ( $page - 1 ) ) + $context['query']['offset'];
@@ -358,3 +364,115 @@ function meta_field_mission_trip_date( $block_content, $attributes, $block, $pos
 	return $block_content;
 }
 \add_filter( 'meta_field_block_get_block_content', __NAMESPACE__ . '\meta_field_mission_trip_date', 10, 4 );
+
+// Create a function to build the full name from two meta fields.
+function meta_field_event_date( $post_id ) {
+	$start_date = get_post_meta( $post_id, 'start_date', true );
+
+	if ( empty( $start_date ) ) {
+		return '';
+	}
+  
+	return sprintf( '<div><span>%s</span><span>%s</span></div>', esc_html( gmdate( 'M', strtotime( $start_date ) ) ), esc_html( gmdate( 'd', strtotime( $start_date ) ) ) );
+}
+
+function meta_field_event_time( $post_id ) {
+	$start_time = get_post_meta( $post_id, 'start_time', true );
+	$end_time   = get_post_meta( $post_id, 'end_time', true );
+
+	if ( empty( $start_time ) ) {
+		return '';
+	}
+
+	$time = implode( ' - ', array_filter( array( gmdate( 'g:i A', strtotime( $start_time ) ), gmdate( 'g:i A', strtotime( $end_time ) ) ) ) );
+  
+	return $time;
+}
+  
+  // Register a custom rest field for the full name.
+\add_action(
+	'rest_api_init',
+	function () {
+		register_rest_field(
+			array( 'event' ),
+			'event_date',
+			array(
+				'get_callback' => function ( $post_array ) {
+					return meta_field_event_date( $post_array['id'] );
+				},
+				'schema'       => array(
+					'type' => 'string',
+				),
+			)
+		);
+
+		register_rest_field(
+			array( 'event' ),
+			'event_time',
+			array(
+				'get_callback' => function ( $post_array ) {
+					return meta_field_event_date( $post_array['id'] );
+				},
+				'schema'       => array(
+					'type' => 'string',
+				),
+			)
+		);
+	}
+);
+
+// Render the block on the front end.
+\add_filter(
+	'meta_field_block_get_block_content',
+	function ( $block_content, $attributes, $block, $post_id ) {
+		$field_name = $attributes['fieldName'] ?? '';
+  
+		if ( 'event_date' === $field_name ) {
+			$block_content = meta_field_event_date( $post_id );
+		}
+
+		if ( 'event_time' === $field_name ) {
+			$block_content = meta_field_event_time( $post_id );
+		}
+  
+		return $block_content;
+	},
+	10,
+	4
+);
+
+\add_filter(
+	'render_block',
+	function( $block_content, $block, $instance ) {
+		if ( 'core/button' === $block['blockName'] ) {
+			global $post;
+
+			$w = new \WP_HTML_Tag_Processor( $block_content );
+			$w->next_tag( 'a' );
+
+			$href = $w->get_attribute( 'href' );
+
+			if ( is_a( $post, 'WP_Post' ) ) {
+				if ( false !== strpos( $href, '{{link}}' ) ) {
+					$w->set_attribute( 'href', get_permalink( $post ) );
+
+					return $w;
+				} elseif ( false !== strpos( $href, '{{rsvp}}' ) ) {
+					$rsvp = get_post_meta( $post->ID, 'rsvp', true );
+
+					if ( ! empty( $rsvp ) ) {
+						$w->set_attribute( 'href', esc_url( $rsvp ) );
+
+						return $w;
+					} else {
+						return '';
+					}           
+				}
+			}
+		}
+
+		return $block_content;
+	},
+	10,
+	3 
+);

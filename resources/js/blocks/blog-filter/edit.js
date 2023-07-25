@@ -16,8 +16,6 @@ function RenderTermsList(props) {
 	const query = {
 		per_page: -1,
 		hide_empty: true,
-		orderby: 'name',
-		context: 'view',
 	};
 	const { records: terms, isResolving } = useEntityRecords(
 		'taxonomy',
@@ -67,6 +65,7 @@ export default function Edit({
 
 	const { taxonomies } = useSelect((select) => {
 		const { getTaxonomies } = select(coreStore);
+
 		const _taxonomies = getTaxonomies({
 			type: postType,
 			per_page: -1,
@@ -100,12 +99,18 @@ export default function Edit({
 						<SelectControl
 							label={__('Taxonomy')}
 							value={filterTaxonomy}
-							options={taxonomies.map((taxonomy) => {
-								return {
-									label: taxonomy.name,
-									value: taxonomy.slug,
-								};
-							})}
+							options={[
+								{
+									label: __('Select'),
+									value: '',
+								},
+								...taxonomies.map((taxonomy) => {
+									return {
+										label: taxonomy.name,
+										value: taxonomy.slug,
+									};
+								}),
+							]}
 							onChange={(value) =>
 								setAttributes({ filterTaxonomy: value })
 							}

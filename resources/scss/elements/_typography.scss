@@ -16,6 +16,11 @@ blockquote {
 	}
 }
 
+sup {
+	font-size: 75%;
+	vertical-align: top;
+}
+
 h1,
 h2,
 h3,
@@ -24,6 +29,10 @@ h5,
 h6 {
 
 	a {
-		text-decoration: none;
+		text-decoration: none !important;
+	}
+
+	sup {
+		line-height: 1;
 	}
 }

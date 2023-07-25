@@ -49,15 +49,18 @@
 	}
 
 	.button {
+		font-family: var(--wp--preset--font-family--apercupro);
+		font-size: 15px;
+		font-weight: 500;
+		line-height: 1.1334 !important;
 
 		&.parsys {
 			margin: 0 0 1.5em;
 			margin-right: auto !important;
 			margin-left: auto !important;
 			padding: 0;
-			border: 1px solid #ef3340;
-			background-color: #ce2a31;
-			background-image: linear-gradient(#ef3340, #ed1b2a), linear-gradient(270deg, hsla(0, 0%, 100%, 0.5), #ef3340);
+			border: 1px solid var(--wp--preset--color--red);
+			background: var(--wp--preset--color--red);
 
 			.button {
 				padding: 0 1.5em;
@@ -69,22 +72,39 @@
 			}
 		}
 
+		&:has(.button) {
+			padding: 0;
+			border: 0 !important;
+			background: transparent !important;
+		}
+
 		button {
+			margin: 0;
+			padding: 0;
 			border: none;
-			color: #fff;
+			color: inherit;
 			background: transparent;
 			box-shadow: none;
+			font: inherit;
 			cursor: pointer;
 			appearance: none;
 		}
 
 		.button {
-			padding: 0;
+			padding: 12px 24px 11px;
 			border: none;
-			border: 1px solid #ef3340;
-			background-color: #ce2a31;
-			background-image: linear-gradient(#ef3340, #ed1b2a), linear-gradient(270deg, hsla(0, 0%, 100%, 0.5), #ef3340);
+			border: 1px solid var(--wp--preset--color--red);
+			background: var(--wp--preset--color--red);
 			box-shadow: none;
+
+			&:hover {
+				color: var(--wp--preset--color--red);
+				background: transparent;
+			}
+
+			br {
+				display: none;
+			}
 		}
 	}
 

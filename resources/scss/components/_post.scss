@@ -1,9 +1,59 @@
 .post {
 
+	&-container {
+
+		@media (max-width: 781px) {
+			display: flex;
+			flex-direction: column-reverse;
+			margin-top: 0 !important;
+		}
+	}
+
 	&-password-form {
 
 		[type="submit"] {
 			margin-top: var(--wp--style--block-gap);
+		}
+	}
+
+	&-author-box {
+		display: grid !important;
+		grid-auto-rows: auto;
+		grid-template-columns: 142px 1fr;
+		grid-template-rows: auto;
+		grid-template-areas: "avatar .";
+		row-gap: 0 !important;
+		align-items: flex-start !important;
+
+		.avatar {
+			width: 142px;
+			min-width: 142px;
+			aspect-ratio: 1/1;
+			border-radius: 50%;
+		}
+
+		.wp-block-post-author {
+			grid-area: avatar;
+			grid-row-end: 4;
+
+			@media (min-width: 600px) {
+				grid-row-end: 5;
+			}
+
+			&__avatar {
+				margin: 0 !important;
+			}
+
+			&__content {
+				display: none;
+			}
+
+			&-biography {
+
+				@media (max-width: 599px) {
+					grid-column-start: span 2;
+				}
+			}
 		}
 	}
 }

@@ -15,8 +15,9 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	store as blockEditorStore,
+	InspectorControls,
 } from '@wordpress/block-editor';
-import { Spinner } from '@wordpress/components';
+import { PanelBody, RangeControl, Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 
 const TEMPLATE = [
@@ -95,11 +96,12 @@ export default function PostTemplateEdit({
 		} = {},
 		queryContext = [{ page: 1 }],
 		templateSlug,
-		displayLayout: { type: layoutType = 'flex', columns = 1 } = {},
 		previewPostType,
 	},
-	__unstableLayoutClassNames,
+	attributes,
+	setAttributes,
 }) {
+	const { columns } = attributes;
 	const [{ page }] = queryContext;
 	const [activeBlockContextId, setActiveBlockContextId] = useState();
 	const { posts, blocks } = useSelect(
@@ -215,12 +217,8 @@ export default function PostTemplateEdit({
 			})),
 		[posts]
 	);
-	const hasLayoutFlex = layoutType === 'flex' && columns > 1;
 	const blockProps = useBlockProps({
-		className: classnames(__unstableLayoutClassNames, {
-			'is-flex-container': hasLayoutFlex,
-			[`columns-${columns}`]: hasLayoutFlex,
-		}),
+		className: classnames(`columns-${columns}`),
 	});
 
 	if (!posts) {
@@ -240,34 +238,47 @@ export default function PostTemplateEdit({
 	// This ensures that when it is displayed again, the cached rendering of the
 	// block preview is used, instead of having to re-render the preview from scratch.
 	return (
-		<div {...blockProps}>
-			<ul className="wp-block-jf-blog-template__posts">
-				{blockContexts &&
-					blockContexts.map((blockContext) => (
-						<BlockContextProvider
-							key={blockContext.postId}
-							value={blockContext}
-						>
-							{blockContext.postId ===
-							(activeBlockContextId ||
-								blockContexts[0]?.postId) ? (
-								<PostTemplateInnerBlocks />
-							) : null}
-							<MemoizedPostTemplateBlockPreview
-								blocks={blocks}
-								blockContextId={blockContext.postId}
-								setActiveBlockContextId={
-									setActiveBlockContextId
-								}
-								isHidden={
-									blockContext.postId ===
-									(activeBlockContextId ||
-										blockContexts[0]?.postId)
-								}
-							/>
-						</BlockContextProvider>
-					))}
-			</ul>
-		</div>
+		<>
+			<InspectorControls>
+				<PanelBody title={__('Settings')}>
+					<RangeControl
+						label={__('Columns')}
+						value={columns}
+						onChange={(value) => setAttributes({ columns: value })}
+						min={1}
+						max={6}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...blockProps}>
+				<ul className="wp-block-jf-blog-template__posts">
+					{blockContexts &&
+						blockContexts.map((blockContext) => (
+							<BlockContextProvider
+								key={blockContext.postId}
+								value={blockContext}
+							>
+								{blockContext.postId ===
+								(activeBlockContextId ||
+									blockContexts[0]?.postId) ? (
+									<PostTemplateInnerBlocks />
+								) : null}
+								<MemoizedPostTemplateBlockPreview
+									blocks={blocks}
+									blockContextId={blockContext.postId}
+									setActiveBlockContextId={
+										setActiveBlockContextId
+									}
+									isHidden={
+										blockContext.postId ===
+										(activeBlockContextId ||
+											blockContexts[0]?.postId)
+									}
+								/>
+							</BlockContextProvider>
+						))}
+				</ul>
+			</div>
+		</>
 	);
 }

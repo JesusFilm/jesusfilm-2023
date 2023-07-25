@@ -1,0 +1,40 @@
+.event {
+
+	&_date .value > div {
+		display: flex;
+		flex-direction: column;
+		width: 80px;
+		height: 80px;
+		border: 1px solid var(--wp--preset--color--light-soft-gray);
+		border-radius: 8px;
+		background-color: var(--wp--preset--color--white);
+		font-family: var(--wp--preset--font-family--apercupro);
+		text-align: center;
+
+		> :first-child {
+			margin: -1px -1px 0 -1px;
+			border: 1px solid var(--wp--preset--color--light-soft-gray);
+			border-radius: 8px;
+			background-color: var(--wp--preset--color--tan);
+			font-weight: 500;
+			line-height: 31px;
+			text-transform: uppercase;
+		}
+
+		> :nth-child(2) {
+			font-size: 38px;
+			font-weight: 700;
+			line-height: 42px;
+		}
+
+		.wp-block-card & {
+			position: absolute;
+			top: var(--wp--preset--spacing--24);
+			right: var(--wp--preset--spacing--20);
+		}
+	}
+
+	&_info {
+		justify-content: space-between;
+	}
+}

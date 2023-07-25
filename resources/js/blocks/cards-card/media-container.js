@@ -73,7 +73,11 @@ function MediaContainer(props) {
 				</figure>
 			);
 		}
-		return <img src={media.source_url} alt={media.alt} />;
+		return (
+			<figure className={classes}>
+				<img src={media.source_url} alt={media.alt} />
+			</figure>
+		);
 	}
 
 	if (mediaUrl) {

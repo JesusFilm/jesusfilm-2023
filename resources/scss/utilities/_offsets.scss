@@ -56,8 +56,14 @@ $max: 100;
 $step: 4;
 
 @for $i from 1 through ceil($max/$step) {
+	.offset-top-#{$i * $step} {
+		margin-top: clampbuilder(( ( $i * $step ) * -1 ) / 1.5, ( $i * $step ) * -1, 600, 782) !important;
+	}
 	.offset-bottom-#{$i * $step} {
 		margin-bottom: clampbuilder(( ( $i * $step ) * -1 ) / 1.5, ( $i * $step ) * -1, 600, 782) !important;
+	}
+	.padding-top-#{$i * $step} {
+		padding-top: clampbuilder(( $i * $step ) / 1.5, ( $i * $step ), 600, 782) !important;
 	}
 	.padding-bottom-#{$i * $step} {
 		padding-bottom: clampbuilder(( $i * $step ) / 1.5, ( $i * $step ), 600, 782) !important;

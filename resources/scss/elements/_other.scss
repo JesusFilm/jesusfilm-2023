@@ -1,8 +1,7 @@
 details {
 	overflow: hidden;
 	border: 1px solid var(--wp--preset--color--tan);
-	border-bottom-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	border-radius: 8px;
 
 	summary {
 		display: flex;
@@ -44,7 +43,7 @@ details {
 
 		+ div {
 			padding: var(--wp--preset--spacing--24);
-			background-color: var(--wp--preset--color--tan);
+			background-color: #faf9f6;
 
 			> :first-child {
 				margin-top: 0;

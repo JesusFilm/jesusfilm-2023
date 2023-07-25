@@ -12,14 +12,14 @@
 $post_type = ! empty( $block->context['query']['postType'] ) ? $block->context['query']['postType'] : 'post';
 
 ?>
-<script>
+<script class="wp-block-blog-template-script">
 var jfQuery<?php echo (int) $block->context['queryId']; ?> = JSON.parse('<?php echo json_encode( $block->context['query'] ); ?>');
 </script>
 <div 
 <?php 
 echo get_block_wrapper_attributes(
 	array(
-		'class'      => 'post-type-' . $post_type,
+		'class'      => 'columns-' . absint( $attributes['columns'] ?? 1 ),
 		'data-block' => json_encode( $block ),
 	) 
 ); 

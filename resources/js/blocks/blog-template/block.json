@@ -6,6 +6,12 @@
 	"category": "theme",
 	"description": "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
 	"textdomain": "default",
+	"attributes": {
+		"columns": {
+			"type": "integer",
+			"default": 1
+		}
+	},
 	"usesContext": [
 		"queryId",
 		"query",

@@ -46,7 +46,7 @@ switch ( $attributes['filterType'] ?? null ) {
 				'order'   => 'DESC',
 			) 
 		);
-		
+
 		if ( is_wp_error( $data ) || empty( $data ) ) {
 			return array();
 		}
@@ -78,10 +78,15 @@ switch ( $attributes['filterType'] ?? null ) {
 			FROM {$wpdb->users} users
 			INNER JOIN {$wpdb->posts} posts 
 				ON users.ID = posts.post_author
+			INNER JOIN {$wpdb->usermeta} usermeta
+				ON posts.post_author = usermeta.user_id
+				AND usermeta.meta_key = 'featured'
+				AND usermeta.meta_value = '1'
 			WHERE posts.ID IN ('$post_ids_string')
+			GROUP BY users.ID
 		" 
 		);
-		
+
 		$data = get_users(
 			array(
 				'include' => $users,
@@ -91,6 +96,19 @@ switch ( $attributes['filterType'] ?? null ) {
 				),
 			) 
 		);
+
+		$data = array_map(
+			function( $user ) {
+				$user->post_count = count_user_posts( $user->ID, $query['post_type'] ?? 'post', true );
+
+				return $user;
+			},
+			$data 
+		);
+
+		usort( $data, fn( $b, $a) => $a->post_count <=> $b->post_count );
+
+		$data = array_slice( $data, 0, 10 );
 
 		$data = array_map(
 			function( $user ) {
