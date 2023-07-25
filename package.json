@@ -14,6 +14,10 @@
     "authoruri": "https://cloudcatch.io",
     "domainpath": "/languages"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JesusFilm/jesusfilm-2023.git"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -53,6 +57,8 @@
     "prettier-stylelint": "^0.4.2",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
+    "semantic-release": "^21.0.7",
+    "semantic-release-plugin-update-version-in-files": "^1.1.0",
     "stylelint": "^14.2.0",
     "stylelint-config-recommended-scss": "^8.0.0",
     "stylelint-order": "^6.0.3"
