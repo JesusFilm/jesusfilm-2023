@@ -72,6 +72,7 @@
 		grid-auto-rows: 1fr;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto;
+		gap: var(--gap, 20px);
 
 		&.is-vertically-aligned-top {
 			grid-auto-rows: auto;

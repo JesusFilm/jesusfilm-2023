@@ -5,18 +5,16 @@ import {
 	InspectorControls,
 	useInnerBlocksProps,
 	useBlockProps,
-	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { PanelBody, RangeControl } from '@wordpress/components';
-import { useDispatch } from '@wordpress/data';
 
-import GapStyles from './gap-styles';
+import gapStyles from './gap-styles';
 
 import classnames from 'classnames';
 
 const ALLOWED_BLOCKS = ['cloudcatch/cards-card'];
 
-export default function Edit({ clientId, attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes }) {
 	const { columns, verticalAlignment } = attributes;
 	const blockGap = attributes.style?.spacing?.blockGap;
 
@@ -33,7 +31,9 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		className: classes,
 		style: {
 			'--columns': columns,
-			'--gap': blockGap ? blockGap : '20px',
+			'--gap': blockGap
+				? gapStyles(blockGap)
+				: 'var( --wp--style--block-gap, 20px )',
 		},
 	});
 
@@ -86,10 +86,6 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<GapStyles
-				blockGap={attributes.style?.spacing?.blockGap}
-				clientId={clientId}
-			/>
 			<div {...innerBlocksProps} />
 		</>
 	);
