@@ -18,6 +18,9 @@
     "type": "git",
     "url": "https://github.com/JesusFilm/jesusfilm-2023.git"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
