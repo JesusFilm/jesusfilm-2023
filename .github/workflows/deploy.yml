@@ -45,7 +45,6 @@ jobs:
             build/jesusfilm-2023.zip
 
       - name: Push to VIP
-        if: steps.semantic.outputs.new_release_published == 'true'
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
