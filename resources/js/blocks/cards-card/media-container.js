@@ -44,7 +44,7 @@ function PlaceholderContainer({ className, mediaUrl, onSelectMedia }) {
 	);
 }
 
-function MediaContainer(props) {
+function MediaContainer(props, ref) {
 	const {
 		mediaAlt,
 		mediaId,
@@ -62,19 +62,19 @@ function MediaContainer(props) {
 	if (useFeaturedImage) {
 		if (!featuredImage) {
 			return (
-				<figure className={classes}>
+				<figure className={classes} ref={ref}>
 					<PlaceholderContainer {...props} />
 				</figure>
 			);
 		} else if (!media) {
 			return (
-				<figure className={classes}>
+				<figure className={classes} ref={ref}>
 					<PlaceholderContainer {...props} />
 				</figure>
 			);
 		}
 		return (
-			<figure className={classes}>
+			<figure className={classes} ref={ref}>
 				<img src={media.source_url} alt={media.alt} />
 			</figure>
 		);
@@ -87,7 +87,7 @@ function MediaContainer(props) {
 		};
 
 		return (
-			<figure className={classes}>
+			<figure className={classes} ref={ref}>
 				{(mediaTypeRenderers[mediaType] || noop)()}
 				{isTemporaryMedia && <Spinner />}
 				<PlaceholderContainer {...props} />
@@ -96,7 +96,7 @@ function MediaContainer(props) {
 	}
 
 	return (
-		<figure className={classes}>
+		<figure className={classes} ref={ref}>
 			<PlaceholderContainer {...props} />
 		</figure>
 	);
