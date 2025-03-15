@@ -100,7 +100,6 @@
         "tidy",
         "tokenizer",
         "wddx",
-        "../vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php",
         "wordpress",
         "xml",
         "xmlreader",

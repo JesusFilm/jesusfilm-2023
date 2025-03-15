@@ -10,35 +10,11 @@
 
 // Import required packages.
 const mix = require('laravel-mix');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const packageJson = require('./package.json');
 const prependFile = require('prepend-file');
 const path = require('path');
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
-
-/*
- * Monitor files for changes and inject your changes into the browser.
- *
- */
-if (process.env.sync) {
-    var bs = require("browser-sync").create();
-
-    bs.init({
-        notify: false,
-        proxy: process.env.MIX_PROXY,
-        port: process.env.MIX_PORT,
-        files: [
-            'assets/**/.js',
-            'assets/**/.css',
-            'patterns/*',
-            'parts/*',
-            'templates/*',
-            'functions.php',
-            '*.css',
-        ]
-    });
-}
 
 /*
  * Disable all notifications.
@@ -245,23 +221,5 @@ mix.webpackConfig({
                 }
             ],
         }),
-        // @link https://github.com/Klathmon/imagemin-webpack-plugin
-        new ImageminPlugin({
-            test: /\.(jpe?g|png|gif|svg)$/i,
-            disable: process.env.NODE_ENV !== 'production',
-            optipng: { optimizationLevel: 3 },
-            gifsicle: { optimizationLevel: 3 },
-            pngquant: {
-                quality: '65-90',
-                speed: 4
-            },
-            svgo: {
-                plugins: [
-                    { cleanupIDs: false },
-                    { removeViewBox: false },
-                    { removeUnknownsAndDefaults: false }
-                ]
-            }
-        })
     ]
 });
