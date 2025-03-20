@@ -554,6 +554,15 @@
 					}
 				}
 			},
+			"core/list-item": {
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--red)"
+						}
+					}
+				}
+			},
 			"core/buttons": {
 				"spacing": {
 					"blockGap": "10px"
