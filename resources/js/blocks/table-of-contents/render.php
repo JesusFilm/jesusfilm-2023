@@ -44,96 +44,52 @@ echo sprintf(
  *
  * @return array The list of headings.
  */
-function jf_block_table_of_contents_get_headings_from_content(
-	$content,
-	$headings_page = 1
-) {
-	/* phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase */
-	// Disabled because of PHP DOMDocument and DOMXPath APIs using camelCase.
+function jf_block_table_of_contents_get_headings_from_content($content, $headings_page = 1) {
+    $blocks = parse_blocks($content);
+    $headings = [];
+    $used_slugs = [];
 
-	// Create a document to load the post content into.
-	$doc = new \DOMDocument();
+    $extract_headings = function($blocks) use (&$extract_headings, $headings_page, &$used_slugs) {
+        $out = [];
+        foreach ($blocks as $block) {
+            // If this block is a heading (core/heading)
+            if ($block['blockName'] === 'core/heading') {
+				$tags = new WP_HTML_Tag_Processor( $block['innerHTML'] );
 
-	// Enable user error handling for the HTML parsing. HTML5 elements aren't
-	// supported (as of PHP 7.4) and There's no way to guarantee that the markup
-	// is valid anyway, so we're just going to ignore all errors in parsing.
-	// Nested heading elements will still be parsed.
-	// The lack of HTML5 support is a libxml2 issue:
-	// https://bugzilla.gnome.org/show_bug.cgi?id=761534.
-	libxml_use_internal_errors( true );
-
-	// Parse the post content into an HTML document.
-	$doc->loadHTML(
-		// loadHTML expects ISO-8859-1, so we need to convert the post content to
-		// that format. We use htmlentities to encode Unicode characters not
-		// supported by ISO-8859-1 as HTML entities. However, this function also
-		// converts all special characters like < or > to HTML entities, so we use
-		// htmlspecialchars_decode to decode them.
-		htmlspecialchars_decode(
-			utf8_decode(
-				htmlentities(
-					'<html><body>' . $content . '</body></html>',
-					ENT_COMPAT,
-					'UTF-8',
-					false
-				)
-			),
-			ENT_COMPAT
-		)
-	);
-
-	// We're done parsing, so we can disable user error handling. This also
-	// clears any existing errors, which helps avoid a memory leak.
-	libxml_use_internal_errors( false );
-
-	// IE11 treats template elements like divs, so to avoid extracting heading
-	// elements from them, we first have to remove them.
-	// We can't use foreach directly on the $templates DOMNodeList because it's a
-	// dynamic list, and removing nodes confuses the foreach iterator. So
-	// instead, we convert the iterator to an array and then iterate over that.
-	$templates = iterator_to_array(
-		$doc->documentElement->getElementsByTagName( 'template' )
-	);
-
-	foreach ( $templates as $template ) {
-		$template->parentNode->removeChild( $template );
-	}
-
-	$xpath = new \DOMXPath( $doc );
-
-	// Get all non-empty heading elements in the post content.
-	$headings = iterator_to_array(
-		$xpath->query(
-			'//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6][text()!=""]'
-		)
-	);
-
-	return array_map(
-		function ( $heading ) use ( $headings_page ) {
-			$id = null;
-
-			if ( isset( $heading->attributes ) ) {
-				$id_attribute = $heading->attributes->getNamedItem( 'id' );
-
-				if ( null !== $id_attribute && '' !== $id_attribute->nodeValue ) {
-					$id = $id_attribute->nodeValue;
+				while ( $tags->next_tag() ) {
+					if ( in_array( $tags->get_tag(), array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true ) ) {
+						$level = (int) substr( $tags->get_tag(), 1 );
+						$id = $tags->get_attribute( 'id' );
+						$text  = wp_strip_all_tags( $tags->get_modifiable_text() );
+						break;
+					}
 				}
-			}
 
-			return array(
-				// A little hacky, but since we know at this point that the tag will
-				// be an h1-h6, we can just grab the 2nd character of the tag name
-				// and convert it to an integer. Should be faster than conditionals.
-				'level'   => (int) $heading->nodeName[1],
-				'id'      => $id,
-				'page'    => $headings_page,
-				'content' => $heading->textContent,
-			);
-		},
-		$headings
-	);
-	/* phpcs:enable */
+                $text = '';
+                if (isset($block['attrs']['content'])) {
+                    $text = wp_strip_all_tags($block['attrs']['content']);
+                } elseif (isset($block['innerHTML'])) {
+                    $text = wp_strip_all_tags($block['innerHTML']);
+                }
+
+                $out[] = [
+                    'level' => $level,
+                    'id' => $id,
+                    'page' => $headings_page,
+                    'content' => $text,
+                ];
+            }
+            // Recursively handle innerBlocks
+            if (!empty($block['innerBlocks'])) {
+                $out = array_merge($out, $extract_headings($block['innerBlocks']));
+            }
+        }
+        return $out;
+    };
+
+    return $extract_headings($blocks);
 }
+
 
 /**
  * Gets the content, anchor, level, and page of headings from a post. Returns
