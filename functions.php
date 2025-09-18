@@ -221,7 +221,6 @@ function rest_api_blog_endpoint( $request ) {
 	wp_reset_postdata();
 
 	return rest_ensure_response( $content );
-
 }
 
 /**
@@ -389,7 +388,7 @@ function meta_field_event_time( $post_id ) {
 	return $time;
 }
   
-  // Register a custom rest field for the full name.
+	// Register a custom rest field for the full name.
 \add_action(
 	'rest_api_init',
 	function () {
@@ -443,7 +442,7 @@ function meta_field_event_time( $post_id ) {
 
 \add_filter(
 	'render_block',
-	function( $block_content, $block, $instance ) {
+	function ( $block_content, $block, $instance ) {
 		if ( 'core/button' === $block['blockName'] ) {
 			global $post;
 

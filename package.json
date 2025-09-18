@@ -1,66 +1,66 @@
 {
-  "name": "jesusfilm-2023",
-  "version": "0.0.0-development",
-  "description": "Default theme for jesusfilm.org",
-  "main": "src/index.js",
-  "keywords": [
-    "wordpress-theme"
-  ],
-  "author": "CloudCatch LLC",
-  "license": "UNLICENSED",
-  "theme": {
-    "name": "Jesus Film Project",
-    "uri": "https://www.jesusfilm.org",
-    "authoruri": "https://cloudcatch.io",
-    "domainpath": "/languages"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JesusFilm/jesusfilm-2023.git"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "scripts": {
-    "build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "start": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env sync=1 NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "lint": "npm run lint:styles && npm run lint:scripts && npm run lint:php",
-    "lint:styles": "cross-env stylelint './resources/scss/**/*.scss'",
-    "lint:scripts": "cross-env eslint",
-    "lint:php": "cross-env ./vendor/bin/phpcs . --runtime-set testVersion 8.0- -s",
-    "i18n": "npm run i18n:textdomain && npm run i18n:pot",
-    "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,tests,node_modules",
-    "i18n:pot": "npx wpi18n makepot --domain-path=languages",
-    "theme-zip": "bash ./bin/build-zip.sh"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.26.10",
-    "@babel/preset-react": "^7.26.3",
-    "@wordpress/dependency-extraction-webpack-plugin": "^6.20.0",
-    "@wordpress/eslint-plugin": "^22.0.0",
-    "@wordpress/icons": "^10.9.0",
-    "@wordpress/stylelint-config": "^23.12.0",
-    "accessible-menu": "^3.0.9",
-    "bourbon": "^7.3.0",
-    "classnames": "^2.5.1",
-    "copy-webpack-plugin": "^13.0.0",
-    "cross-env": "^7.0.3",
-    "laravel-mix": "^6.0.49",
-    "lodash": "^4.17.21",
-    "node-wp-i18n": "^1.2.7",
-    "postcss-preset-env": "^10.1.5",
-    "prepend-file": "^2.0.1",
-    "sass": "^1.85.1",
-    "sass-loader": "^16.0.5",
-    "semantic-release": "^24.2.3",
-    "semantic-release-plugin-update-version-in-files": "^2.0.0",
-    "stylelint-config-recommended-scss": "^14.1.0"
-  },
-  "dependencies": {
-    "react-dom": "^18.3.1",
-    "react-paginate": "^8.2.0",
-    "react-select": "^5.7.2"
-  }
+	"author": "CloudCatch LLC",
+	"dependencies": {
+		"react-dom": "^18.3.1",
+		"react-paginate": "^8.2.0",
+		"react-select": "^5.7.2"
+	},
+	"description": "Default theme for jesusfilm.org",
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.26.10",
+		"@babel/preset-react": "^7.26.3",
+		"@wordpress/dependency-extraction-webpack-plugin": "^6.31.0",
+		"@wordpress/eslint-plugin": "^22.17.0",
+		"@wordpress/icons": "^10.31.0",
+		"@wordpress/stylelint-config": "^23.23.0",
+		"accessible-menu": "^3.0.9",
+		"bourbon": "^7.3.0",
+		"classnames": "^2.5.1",
+		"copy-webpack-plugin": "^13.0.0",
+		"cross-env": "^7.0.3",
+		"laravel-mix": "^6.0.49",
+		"lodash": "^4.17.21",
+		"node-wp-i18n": "^1.2.7",
+		"postcss-preset-env": "^10.1.5",
+		"prepend-file": "^2.0.1",
+		"sass": "^1.85.1",
+		"sass-loader": "^16.0.5",
+		"semantic-release": "^24.2.3",
+		"semantic-release-plugin-update-version-in-files": "^2.0.0",
+		"stylelint-config-recommended-scss": "^15.0.1"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"keywords": [
+		"wordpress-theme"
+	],
+	"license": "UNLICENSED",
+	"main": "src/index.js",
+	"name": "jesusfilm-2023",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JesusFilm/jesusfilm-2023.git"
+	},
+	"scripts": {
+		"build": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+		"build:prod": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+		"i18n": "npm run i18n:textdomain && npm run i18n:pot",
+		"i18n:pot": "npx wpi18n makepot --domain-path=languages",
+		"i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,tests,node_modules",
+		"lint": "npm run lint:styles && npm run lint:scripts && npm run lint:php",
+		"lint:php": "cross-env ./vendor/bin/phpcs . --runtime-set testVersion 8.0- -s",
+		"lint:scripts": "cross-env eslint",
+		"lint:styles": "cross-env stylelint './resources/scss/**/*.scss'",
+		"start": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+		"theme-zip": "bash ./bin/build-zip.sh",
+		"watch": "cross-env sync=1 NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+	},
+	"theme": {
+		"authoruri": "https://cloudcatch.io",
+		"domainpath": "/languages",
+		"name": "Jesus Film Project",
+		"uri": "https://www.jesusfilm.org"
+	},
+	"version": "0.0.0-development"
 }

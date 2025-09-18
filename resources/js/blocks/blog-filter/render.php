@@ -52,7 +52,7 @@ switch ( $attributes['filterType'] ?? null ) {
 		}
 
 		$data = array_map(
-			function( $term ) {
+			function ( $term ) {
 				return array(
 					'label'  => $term->name,
 					'value'  => $term->term_id,
@@ -97,21 +97,23 @@ switch ( $attributes['filterType'] ?? null ) {
 			) 
 		);
 
-		$data = array_map(
-			function( $user ) {
-				$user->post_count = count_user_posts( $user->ID, $query['post_type'] ?? 'post', true );
+		usort(
+			$data,
+			function ( $a, $b ) {
+				$order_a = (int) get_user_meta( $a->ID, 'author_order', true );
+				$order_b = (int) get_user_meta( $b->ID, 'author_order', true );
 
-				return $user;
-			},
-			$data 
+				if ( $order_a === $order_b ) {
+					return count_user_posts( $b->ID ) <=> count_user_posts( $a->ID );
+				}
+				return $order_a <=> $order_b;
+			}
 		);
-
-		usort( $data, fn( $b, $a) => $a->post_count <=> $b->post_count );
 
 		$data = array_slice( $data, 0, 10 );
 
 		$data = array_map(
-			function( $user ) {
+			function ( $user ) {
 				return array(
 					'label'  => $user->display_name,
 					'value'  => $user->ID,

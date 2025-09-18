@@ -1,24 +1,23 @@
 {
-    "name": "jesusfilm/jesusfilm-2023",
-    "description": "Default theme for jesusfilm.org",
-    "type": "wordpress-theme",
-    "license": "UNLICENSED",
     "authors": [
         {
-            "name": "CloudCatch LLC",
-            "email": "david@cloudcatch.io"
+            "email": "david@cloudcatch.io",
+            "name": "CloudCatch LLC"
         }
     ],
-    "require-dev": {
-        "php-stubs/wordpress-stubs": "^v6.2.0",
-        "automattic/vipwpcs": "^2.3",
-        "wp-coding-standards/wpcs": "^2.3",
-        "squizlabs/php_codesniffer": "^3.7",
-        "phpcompatibility/phpcompatibility-wp": "^2.1"
-    },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    }
+    },
+    "description": "Default theme for jesusfilm.org",
+    "license": "UNLICENSED",
+    "name": "jesusfilm/jesusfilm-2023",
+    "require-dev": {
+        "automattic/vipwpcs": "^3.0.1",
+        "php-stubs/wordpress-stubs": "6.8.2",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "wp-coding-standards/wpcs": "^3.2.0"
+    },
+    "type": "wordpress-theme"
 }
