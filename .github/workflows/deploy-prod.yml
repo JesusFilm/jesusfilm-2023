@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to Production
 
 on:
   push:
@@ -51,5 +51,5 @@ jobs:
           destination-github-username: 'wpcomvip'
           destination-repository-name: 'cru-www-jesusfilm-org'
           user-email: david@dkjensen.com
-          target-branch: develop
+          target-branch: production
           target-directory: themes/jesusfilm-2023

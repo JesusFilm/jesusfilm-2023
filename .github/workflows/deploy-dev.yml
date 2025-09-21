@@ -1,0 +1,55 @@
+name: Deploy to Develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          npm i
+
+      - name: Semantic release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 17
+          branches: | 
+            ['master']
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Build release
+        shell: bash
+        run: |
+          npm run theme-zip
+
+      - name: Release
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.semantic.outputs.new_release_version }}
+          files: |
+            build/jesusfilm-2023.zip
+
+      - name: Push to VIP
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: 'build/jesusfilm-2023'
+          destination-github-username: 'wpcomvip'
+          destination-repository-name: 'cru-www-jesusfilm-org'
+          user-email: david@dkjensen.com
+          target-branch: develop
+          target-directory: themes/jesusfilm-2023
